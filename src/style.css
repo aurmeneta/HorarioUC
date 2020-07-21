@@ -1,0 +1,29 @@
+body, th, td {
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.CLAS {
+    background: #fbc575;
+}
+
+.LAB {
+    background: #b3d4f5;
+}
+
+.AYU {
+    background: #99cc99;
+}
+
+.TAL {
+    background: #c7c2f8;
+}
+
+#almuerzo {
+    background: #E7EAF6;
+    letter-spacing: 30px;
+    text-align: center;
+}
