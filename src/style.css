@@ -27,3 +27,7 @@ table {
     letter-spacing: 30px;
     text-align: center;
 }
+
+#horario {
+    table-layout: fixed;
+}

@@ -1,15 +1,19 @@
 import React from 'react';
 
-import BuscarCursoForm from "../BuscarCursoForm";
+import BuscarCursoForm from "../Forms/BuscarCursoForm";
+import AlertaErrorEnBusqueda from "../Alertas/AlertaErrorEnBusqueda";
 
 class BuscarCursoCard extends React.Component {
     render() {
+        const { agregarSigla, buscando, errorEnBusqueda } = this.props;
+
         return (
             <div className="col-md-4">
-                <div className="card">
+                <div className="card border-0">
                     <div className="card-body">
                         <h5 className="card-title">Buscar cursos</h5>
-                        <BuscarCursoForm agregarSigla={this.props.agregarSigla}/>
+                        <BuscarCursoForm agregarSigla={agregarSigla} buscando={buscando}/>
+                        <AlertaErrorEnBusqueda errorEnBusqueda={errorEnBusqueda}/>
                     </div>
                 </div>
             </div>
