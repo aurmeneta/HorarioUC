@@ -2,6 +2,7 @@ import React from 'react';
 
 import Horario from "../Tables/Horario";
 import TablaCombinacion from "../Tables/TablaCombinacion";
+import ErrorBoundary from "../ErrorBoundary";
 
 class CombinacionesCard extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class CombinacionesCard extends React.Component {
 
         if (prevCom !== newCom) {
             this.setState({index: 0})
-        };
+        }
 
     }
 
@@ -66,21 +67,23 @@ class CombinacionesCard extends React.Component {
             <div className="col">
                 <div className="card border-0">
                     <div className="card-body">
-                        <h5 className="card-title">{"Combinación " + (index + 1)}</h5>
+                        <ErrorBoundary>
+                            <h5 className="card-title">{"Combinación " + (index + 1)}</h5>
 
-                        <div className="text-center m-2 btn-group">
-                            <button className="btn btn-secondary" onClick={this.anterior}>Anterior</button>
-                            <button className="btn btn-secondary" onClick={this.siguiente}>Siguiente</button>
-                        </div>
+                            <div className="text-center m-2 btn-group">
+                                <button className="btn btn-secondary" onClick={this.anterior}>Anterior</button>
+                                <button className="btn btn-secondary" onClick={this.siguiente}>Siguiente</button>
+                            </div>
 
-                        {
-                            combinaciones.length === 0 ? <p>No hay combinaciones</p> :
-                                <div className="row">
-                                    <Horario combinacion={combinaciones[index]}/>
-                                    <TablaCombinacion combinacion={combinaciones[index]}/>
-                                    <br/>
-                                </div>
-                        }
+                            {
+                                combinaciones.length === 0 ? <p>No hay combinaciones</p> :
+                                    <div className="row">
+                                        <Horario combinacion={combinaciones[index]}/>
+                                        <TablaCombinacion combinacion={combinaciones[index]}/>
+                                        <br/>
+                                    </div>
+                            }
+                        </ErrorBoundary>
                     </div>
                 </div>
             </div>
