@@ -1,17 +1,22 @@
 import React from 'react';
-import { DIAS, NUMERO_MODULOS } from '../../util';
+import { DIAS, NUMERO_MODULOS } from '../../Util/util';
 import {FilaHorario, FilaAlmuerzo} from "./FilasHorario";
 
 class Horario extends React.Component {
     render(){
         let {combinacion} = this.props;
-        if (!combinacion) return;
+        if (!combinacion)
+            return (<p>¡No hay combinación!</p>);
 
+        // TODO: permitir choque de horarios.
+        // Inicializa un array de dos dimensiones para almacenar los cursos correspondientes a cada módulo.
+        // La primera dimensión corresponde a los modulos y la segunda a los días.
         let modulos = [];
 
         for (let i = 0; i < NUMERO_MODULOS; i++){
             let dias = [];
             for (let j = 0; j < DIAS.length; j++) {
+                // Añade un objeto vacío.
                 dias.push({
                     tipo: "",
                     secciones: [],
@@ -21,18 +26,22 @@ class Horario extends React.Component {
             modulos.push(dias);
         }
 
+        // Asigna a cada grupo de la combinación los módulos correspondientes.
         combinacion.forEach(grupo => {
             const { sigla } = grupo;
 
-            let secciones = grupo.secciones.map(curso => curso.seccion);
-            secciones.sort( (a, b) => a - b );
+            let numerosSecciones = grupo.secciones.map(curso => curso.seccion);
+            numerosSecciones.sort( (a, b) => a - b );
 
             grupo.horario.forEach(horario => {
                 let dia = DIAS.indexOf(horario.dia);
                 let { hora } = horario;
                 let { tipo } = horario;
 
-                modulos[hora - 1][dia] = {sigla, tipo, secciones};
+                // Comprueba que el grupo tenga un horario valido.
+                if (hora < 1 || hora > NUMERO_MODULOS || horario.dia === 'SIN HORARIO') return;
+
+                modulos[hora - 1][dia] = {sigla, tipo, secciones: numerosSecciones};
             });
         });
 

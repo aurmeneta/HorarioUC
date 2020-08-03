@@ -19,8 +19,14 @@ const HORA_MODULOS = [
     "18:30",
     "20:00",
 ]
-
+/**
+ * Comprueba que dos cursos o grupos de cursos tengan el mismo horario.
+ * @param curso1: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
+ * @param curso2: objeto curso retornado por BuscaCursos. Objeto grupo también es compatible.
+ * @returns {boolean}
+ */
 const mismoHorario = (curso1, curso2) => {
+    // TODO: Comprobar que todos los horarios de curso2 estén en curso1.
     return curso1.horario.every(horario1 => {
         return curso2.horario.some(horario2 => {
             return horario1.tipo === horario2.tipo && horario1.dia === horario2.dia && horario1.hora === horario2.hora;
@@ -28,31 +34,69 @@ const mismoHorario = (curso1, curso2) => {
     });
 }
 
-const distintoHorario = (grupo1, grupo2) => {
-    return grupo1.horario.every(horario1 => {
-        return grupo2.horario.every(horario2 => {
-            return ((horario1.dia === horario2.dia && horario1.hora !== horario2.hora) || (horario1.dia !== horario2.dia));
+/**
+ * Comprueba que dos cursos o grupo de cursos tengan horarios diferentes.
+ * @param curso1: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
+ * @param curso2: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
+ * @returns {boolean}
+ */
+const distintoHorario = (curso1, curso2) => {
+    const horario1 = curso1.horario;
+    const horario2 = curso2.horario;
+
+    // Comprobar que cada horario de horario1 no choque a algún horario de horario2.
+    return horario1.every(horario1 => {
+        return horario2.every(horario2 => {
+            return (
+                (horario1.dia === horario2.dia && horario1.hora !== horario2.hora) ||   // Horarios son el mismo día, pero en horas distintas.
+                (horario1.dia !== horario2.dia)) ||   // Horarios son en dias distintos.
+                (horario1.dia === 'SIN HORARIO') ||   // Horario1 no tiene horario.
+                (horario2.dia === 'SIN HORARIO') // Horario2 no tiene horario.
+
         });
     });
 }
 
+/**
+ * Comprueba que un grupo de cursos sea compatible con una combinación de grupos.
+ * Es decir, que tenga horario distinto a cada grupo de la compinación.
+ * @param combinacion
+ * @param grupo
+ * @returns {boolean}
+ */
 const compatibles = (combinacion, grupo) => {
     return combinacion.every(g => distintoHorario(g, grupo));
 }
 
+/**
+ * Busca una lista de siglas en buscaCursos para el semestre indicado.
+ * @param periodo: semestre en el que se realiza la búsqueda.
+ * @param siglas: sigla de los cursos a buscar.
+ * @returns {Promise<SiglaSinOrdenar[]>}
+ */
 const buscarSiglas = async (periodo, siglas) => {
     return await Promise.all(siglas.map(async sigla => await buscarSigla(periodo, sigla)))
 }
-
+/**
+ * Busca la sigla indicada en el semestre indicado en buscaCursos.
+ * @param periodo
+ * @param _sigla
+ * @returns {Promise<SiglaSinOrdenar>}
+ */
 const buscarSigla = async (periodo, _sigla) => {
+    // Busca la sigla en buscaCursos.
     const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, _sigla);
 
+    // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
     const seccionesSinOrdenar = seccionesSinVerificar.filter(seccion => seccion.sigla === _sigla);
 
+    // Si es que no hay resultados, retorna un objeto SiglaSinOrdenar por defecto.
     if (seccionesSinOrdenar.length === 0) return {sigla: _sigla, secciones: [], n_secciones: 0, nombre: "SIN RESULTADOS"}
 
+    // Ordena los cursos por número de sección. TODO: debería estar implementado en buscaCursos.
     const secciones = seccionesSinOrdenar.sort( (s1, s2) => s1.seccion - s2.seccion);
 
+    // Obtiene información
     let { sigla, nombre } = secciones[0];
     let n_secciones = secciones.length;
 

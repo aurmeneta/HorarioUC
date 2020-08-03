@@ -15,12 +15,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import React from 'react';
 import { hot } from 'react-hot-loader';
 
-import * as util from "./util";
+import * as util from "./Util/util";
 
 import Navbar from "./components/Navbar";
 import CursosCard from "./components/Cards/CursosCard";
 import BuscarCursoCard from "./components/Cards/BuscarCursoCard";
 import CombinacionesCard from "./components/Cards/CombinacionesCard";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const periodo = "2020-2";
 const siglasDefault = [

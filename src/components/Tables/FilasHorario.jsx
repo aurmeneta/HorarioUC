@@ -1,5 +1,5 @@
 import React from 'react';
-import {DIAS, HORA_MODULOS} from '../../util.js';
+import {DIAS, HORA_MODULOS} from '../../Util/util.js';
 
 function FilaHorario(props)  {
     let {index, dia} = props;
