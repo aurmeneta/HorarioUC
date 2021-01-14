@@ -23,13 +23,10 @@ import BuscarCursoCard from "./components/Cards/BuscarCursoCard";
 import CombinacionesCard from "./components/Cards/CombinacionesCard";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-const periodo = "2020-2";
+const periodo = "2021-1";
 const siglasDefault = [
-    "MAT1620",
-    "LET0003",
-    "FIS1514",
-    "ICS1513",
-    "IIC1103"]
+    "MAT1630",
+    "MAT1640"]
 
 
 class App extends React.Component {
@@ -95,13 +92,17 @@ class App extends React.Component {
             const siglaSinAgrupar = siglasSinAgrupar.find(siglaSinAgrupar => siglaSinAgrupar.sigla === sigla);
             if (!siglaSinAgrupar) nuevasSiglas.push(sigla);
         });
+        
+        console.log("Nuevas siglas", nuevasSiglas)
 
         // Si es que hay siglas nuevas, obtenerlas desde en BuscaCursos.
         if (nuevasSiglas.length > 0) {
-            this.setState({buscando: true, errorEnBusqueda:undefined});
+            this.setState({buscando: true, errorEnBusqueda: undefined});
 
             util.buscarSiglas(periodo, nuevasSiglas)
                 .then(nuevasSiglasSinAgrupar => {
+                    console.log("Nuevas siglas encontradas", nuevasSiglasSinAgrupar)
+
                     this.setState((prevState) => {
                         let { siglasSinAgrupar } = prevState;
                         // Añade los cursos encontrados al array de las siglas sin agrupar.
@@ -111,6 +112,7 @@ class App extends React.Component {
                 })
                 .catch(reason => {
                     // Si ocurre un error, elimina las siglas buscadas del array para evitar recurciones y muestra la razón del error.
+                    console.error(reason)
                     this.setState( (prevState) => {
                         let { siglas } = prevState;
                         nuevasSiglas.forEach( (sigla) => siglas.splice(siglas.indexOf(sigla), 1));

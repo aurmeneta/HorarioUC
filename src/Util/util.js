@@ -1,5 +1,7 @@
 const buscaCursos = require("buscacursos-uc");
 
+import { Sigla } from './Sigla';
+
 const DIAS = [
     "L",
     "M",
@@ -72,7 +74,7 @@ const compatibles = (combinacion, grupo) => {
  * Busca una lista de siglas en buscaCursos para el semestre indicado.
  * @param periodo: semestre en el que se realiza la búsqueda.
  * @param siglas: sigla de los cursos a buscar.
- * @returns {Promise<SiglaSinOrdenar[]>}
+ * @returns {Promise<Sigla[]>}
  */
 const buscarSiglas = async (periodo, siglas) => {
     return await Promise.all(siglas.map(async sigla => await buscarSigla(periodo, sigla)))
@@ -81,7 +83,7 @@ const buscarSiglas = async (periodo, siglas) => {
  * Busca la sigla indicada en el semestre indicado en buscaCursos.
  * @param periodo
  * @param _sigla
- * @returns {Promise<SiglaSinOrdenar>}
+ * @returns {Promise<Sigla>}
  */
 const buscarSigla = async (periodo, _sigla) => {
     // Busca la sigla en buscaCursos.
@@ -90,17 +92,17 @@ const buscarSigla = async (periodo, _sigla) => {
     // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
     const seccionesSinOrdenar = seccionesSinVerificar.filter(seccion => seccion.sigla === _sigla);
 
-    // Si es que no hay resultados, retorna un objeto SiglaSinOrdenar por defecto.
-    if (seccionesSinOrdenar.length === 0) return {sigla: _sigla, secciones: [], n_secciones: 0, nombre: "SIN RESULTADOS"}
+    // Si no hay resultados, retorna un objeto Sigla por defecto.
+    if (seccionesSinOrdenar.length === 0) return new Sigla(_sigla, "SIN RESULTADOS", [], 0);
 
-    // Ordena los cursos por número de sección. TODO: debería estar implementado en buscaCursos.
+    // Ordena los cursos por número de sección. TODO: debería estar implementado en buscaCursos o en la clase Sigla.
     const secciones = seccionesSinOrdenar.sort( (s1, s2) => s1.seccion - s2.seccion);
 
     // Obtiene información
     let { sigla, nombre } = secciones[0];
     let n_secciones = secciones.length;
 
-    return {sigla, secciones, n_secciones, nombre}
+    return new Sigla(sigla, nombre, secciones, n_secciones);
 }
 
 
