@@ -21,12 +21,16 @@ import Navbar from "./components/Navbar";
 import CursosCard from "./components/Cards/CursosCard";
 import BuscarCursoCard from "./components/Cards/BuscarCursoCard";
 import CombinacionesCard from "./components/Cards/CombinacionesCard";
+import ChoquesCard from "./components/Cards/ChoquesCard"
 import ErrorBoundary from "./components/ErrorBoundary";
 
 const periodo = "2021-1";
 const siglasDefault = [
     "MAT1630",
-    "MAT1640"]
+    "MAT1640",
+    "FIS0152",
+    "IIQ1003",
+    "ICE2006"]
 
 
 class App extends React.Component {
@@ -190,6 +194,10 @@ class App extends React.Component {
                         seccionesSeleccionadas={seccionesSeleccionadas}
                         elegirSeccion={this.elegirSeccion}/>
                     <BuscarCursoCard agregarSigla={this.agregarSigla} buscando={buscando} errorEnBusqueda={errorEnBusqueda}/>
+                </div>
+
+                <div className="row">
+                    <ChoquesCard />
                 </div>
 
                 <div className="row">
