@@ -39,7 +39,7 @@ class BuscarCursoForm extends React.Component {
                 <div className="form-group row">
                     <label className="col-md-5 col-sm-3 col-form-label">Semestre</label>
                     <div className="col-md-8 col-sm-9">
-                        <input type="text" readOnly className="form-control-plaintext" value="2020-2"/>
+                        <input type="text" readOnly className="form-control-plaintext" value="2021-1"/>
                     </div>
                 </div>
 

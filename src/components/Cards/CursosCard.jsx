@@ -6,7 +6,7 @@ import ErrorBoundary from "../ErrorBoundary";
 class CursosCard extends React.Component {
     render() {
 
-        const { siglasAgrupadas, borrarSigla, combinaciones, elegirSeccion, seccionesSeleccionadas} = this.props;
+        const { siglas, borrarSigla, combinaciones, elegirSeccion, seccionesSeleccionadas} = this.props;
         return (
             <div className="col-md">
                 <div className="card border-0">
@@ -14,10 +14,7 @@ class CursosCard extends React.Component {
                         <ErrorBoundary>
                             <h5 className="card-title">Tus cursos</h5>
                             <TablaSiglas
-                                siglasAgrupadas={siglasAgrupadas}
-                                borrarSigla={borrarSigla}
-                                elegirSeccion={elegirSeccion}
-                                seccionesSeleccionadas={seccionesSeleccionadas}/>
+                                {...this.props}/>
                             <p>{combinaciones.length + " combinaciones"}</p>
                         </ErrorBoundary>
                     </div>

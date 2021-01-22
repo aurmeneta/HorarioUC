@@ -21,15 +21,17 @@ import Navbar from "./components/Navbar";
 import CursosCard from "./components/Cards/CursosCard";
 import BuscarCursoCard from "./components/Cards/BuscarCursoCard";
 import CombinacionesCard from "./components/Cards/CombinacionesCard";
+import ChoquesCard from "./components/Cards/ChoquesCard"
 import ErrorBoundary from "./components/ErrorBoundary";
+import { ChoquesPermitidos } from 'buscacursos-uc';
 
-const periodo = "2020-2";
+const periodo = "2021-1";
 const siglasDefault = [
-    "MAT1620",
-    "LET0003",
-    "FIS1514",
-    "ICS1513",
-    "IIC1103"]
+    "MAT1630",
+    /*"MAT1640",
+    "FIS0152",
+    "IIQ1003",
+"ICE2006"*/]
 
 
 class App extends React.Component {
@@ -37,20 +39,18 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            siglas: siglasDefault,
-            siglasSinAgrupar: [],
-            siglasAgrupadasSinFiltrar: [],
+            string_siglas: siglasDefault,
+            siglas: [],
             combinaciones: [],
             seccionesSeleccionadas: [],
-            seccionesAgrupadasFiltradas: [],
             cambios: true,
             buscando: false,
-            errorEnBusqueda: undefined
+            errorEnBusqueda: undefined,
+            choquesPermitidos: new ChoquesPermitidos()
         }
 
         this.agregarSigla = this.agregarSigla.bind(this);
         this.buscarSiglas = this.buscarSiglas.bind(this);
-        this.agruparSiglas = this.agruparSiglas.bind(this);
         this.generarCombinaciones = this.generarCombinaciones.bind(this);
         this.borrarSigla = this.borrarSigla.bind(this);
         this.elegirSeccion = this.elegirSeccion.bind(this);
@@ -59,92 +59,98 @@ class App extends React.Component {
     borrarSigla(event, sigla) {
         event.preventDefault();
 
+        // Eliminar la Sigla del array de siglas y strings de siglas.
         this.setState((prevState) => {
-            let { siglas, siglasAgrupadas, siglasSinAgrupar } = prevState;
+            let { siglas, string_siglas } = prevState;
+            // Busca los indexes de la sigla.
             const indexSiglas = siglas.indexOf(sigla);
-            const indexSiglasSinAgrupar = siglasSinAgrupar.findIndex(siglaSinAgrupar => siglaSinAgrupar.sigla === sigla);
+            const indexString = string_siglas.indexOf(sigla.sigla)
 
-            if (indexSiglas >= 0) siglas.splice(indexSiglas, 1);
-            if (indexSiglasSinAgrupar >= 0) siglasSinAgrupar.splice(indexSiglasSinAgrupar, 1);
+            // Elimina los elementos de los arreglos correspondientes.
+            if (indexSiglas >= 0) siglas.splice(indexSiglas, 1)
+            if (indexString >= 0) string_siglas.splice(indexString, 1)
 
-
-
-            return {siglas, siglasSinAgrupar, cambios: true};
+            return {siglas, cambios: true};
         });
     }
 
     agregarSigla(sigla) {
         this.setState(prevState => {
-            let { siglas } = prevState;
+            let { string_siglas } = prevState;
 
             // Revisar que sigla no haya sido añadida anteriormente.
-            if ( !siglas.includes(sigla) ) siglas.push(sigla);
-            return { siglas, cambios: true };
+            if ( !string_siglas.includes(sigla) ) string_siglas.push(sigla);
+            return { string_siglas, cambios: true };
         });
     }
 
     buscarSiglas() {
-        const { siglas, siglasSinAgrupar, buscando } = this.state;
+        const { string_siglas, siglas, buscando } = this.state;
 
-        // Si ya se está realizando una búsqueda, retornar para evitar duplicaciones.
+        // Si ya se está realizando una búsqueda, retornar para evitar duplicaciones y recursiones.
         if (buscando) return;
 
-        // Buscar siglas añadidas.
+        // Revisar cuáles son las siglas sin objeto Sigla.
         const nuevasSiglas = [];
-        siglas.forEach(sigla => {
-            const siglaSinAgrupar = siglasSinAgrupar.find(siglaSinAgrupar => siglaSinAgrupar.sigla === sigla);
-            if (!siglaSinAgrupar) nuevasSiglas.push(sigla);
+        string_siglas.forEach(string_sigla => {
+            // Buscar si la sigla tiene ya un objeto Sigla.
+            const sigla = siglas.find(s => s.sigla === string_sigla);
+            if (!sigla) nuevasSiglas.push(string_sigla);
         });
 
         // Si es que hay siglas nuevas, obtenerlas desde en BuscaCursos.
         if (nuevasSiglas.length > 0) {
-            this.setState({buscando: true, errorEnBusqueda:undefined});
+            // Levanta el flag de buscando para evitar búsquedas en simultáneo
+            this.setState({buscando: true, errorEnBusqueda: undefined});
 
+            // Buscar las siglas en BuscaCursos
             util.buscarSiglas(periodo, nuevasSiglas)
-                .then(nuevasSiglasSinAgrupar => {
+                .then(nuevasSiglas => {
                     this.setState((prevState) => {
-                        let { siglasSinAgrupar } = prevState;
-                        // Añade los cursos encontrados al array de las siglas sin agrupar.
-                        siglasSinAgrupar = siglasSinAgrupar.concat(nuevasSiglasSinAgrupar);
-                        return { siglasSinAgrupar, cambios: true, buscando: false};
+                        let { siglas } = prevState;
+                        // Añade las Siglas encontrados al array.
+                        siglas = siglas.concat(nuevasSiglas);
+
+                        // Guarda las siglas, levanta el flag que indica que hubo cambios y baja el flag de búsqueda.
+                        return { siglas, cambios: true, buscando: false};
                     });
                 })
                 .catch(reason => {
                     // Si ocurre un error, elimina las siglas buscadas del array para evitar recurciones y muestra la razón del error.
+                    console.error(reason)
                     this.setState( (prevState) => {
-                        let { siglas } = prevState;
-                        nuevasSiglas.forEach( (sigla) => siglas.splice(siglas.indexOf(sigla), 1));
-                        return {siglas, buscando: false, errorEnBusqueda: reason.toString()}
+                        let { string_siglas } = prevState;
+                        nuevasSiglas.forEach( (string_sigla) => string_siglas.splice(string_siglas.indexOf(string_sigla), 1));
+
+                        // Guarda las string_siglas, baja el flag de búsqueda y guarda la razón del error.
+                        return {string_siglas, buscando: false, errorEnBusqueda: reason.toString()}
                     });
                 });
-        } else {
-            // Si es que no hay siglas nuevas, agrupa las existentes y genera las combinaciones.
-            this.agruparSiglas();
         }
     }
 
-    agruparSiglas() {
-        let { cambios } = this.state;
+    generarCombinaciones() {
+        let {siglas, seccionesSeleccionadas, cambios, buscando, choquesPermitidos} = this.state;
 
-        if (!cambios) return;
+        // Si no hay cambios, hay una búsqueda en curso o no hay siglas, no generar las combinaciones.
+        if (!cambios || buscando || siglas.length == 0) return;
 
-        let { siglasSinAgrupar, seccionesSeleccionadas } = this.state;
+        // Filtrar siglas según selecciones de sección del usuario.
+        let siglasFiltradas = siglas.map(sigla => {
+            const seccionSeleccionada = seccionesSeleccionadas.find(seccion => seccion.sigla === sigla.sigla)
+            let numerosSecciones = []
+            
+            if (seccionSeleccionada) numerosSecciones.push(seccionSeleccionada.seccion)
+            else numerosSecciones.push(0)
 
-        const siglasAgrupadasSinFiltrar = siglasSinAgrupar.map(siglaSinAgrupar => util.agruparSiglaPorHorario(siglaSinAgrupar));
-        const siglasFiltradasSinAgrupar = util.filtrarSiglasSegunSelecciones(siglasSinAgrupar, seccionesSeleccionadas);
+            return sigla.filtrarPorSecciones(numerosSecciones)
+        })
 
-        const siglasAgrupadasFiltradas = siglasFiltradasSinAgrupar.map(siglaSinAgrupar => util.agruparSiglaPorHorario(siglaSinAgrupar));
-        const combinaciones = this.generarCombinaciones(siglasAgrupadasFiltradas);
-        cambios = false;
+        // Genera las combinaciones.
+        let combinaciones = util.generarCombinaciones(siglas, choquesPermitidos);
 
-        this.setState({siglasAgrupadasFiltradas, combinaciones, cambios, siglasAgrupadasSinFiltrar});
-    }
-
-    generarCombinaciones(siglasAgrupadas) {
-        if (siglasAgrupadas.length === 0) return [];
-
-        let combinaciones = util.generarCombinaciones(siglasAgrupadas);
-        return combinaciones;
+        // Guardar las combinaciones y bajar flag de cambios
+        this.setState({combinaciones, cambios: false})
     }
 
     elegirSeccion(event) {
@@ -165,8 +171,9 @@ class App extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate() {
         this.buscarSiglas();
+        this.generarCombinaciones();
     }
 
     componentDidMount() {
@@ -174,7 +181,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { siglasAgrupadasSinFiltrar, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda } = this.state;
+        const { siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda } = this.state;
 
         return (
             <div>
@@ -182,12 +189,17 @@ class App extends React.Component {
 
                 <div className="row">
                     <CursosCard
-                        siglasAgrupadas={siglasAgrupadasSinFiltrar}
+                        siglas={siglas}
                         combinaciones={combinaciones}
                         borrarSigla={this.borrarSigla}
                         seccionesSeleccionadas={seccionesSeleccionadas}
                         elegirSeccion={this.elegirSeccion}/>
+                    
                     <BuscarCursoCard agregarSigla={this.agregarSigla} buscando={buscando} errorEnBusqueda={errorEnBusqueda}/>
+                </div>
+
+                <div className="row">
+                    <ChoquesCard />
                 </div>
 
                 <div className="row">

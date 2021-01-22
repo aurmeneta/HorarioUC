@@ -4,7 +4,7 @@ import FilaTablaSiglas from "./FilaTablaSiglas";
 
 class TablaSiglas extends React.Component {
     render(){
-        let { siglasAgrupadas, borrarSigla, elegirSeccion, seccionesSeleccionadas } = this.props;
+        let { siglas, borrarSigla, elegirSeccion, seccionesSeleccionadas } = this.props;
 
         return (
             <table className="table table-sm table-responsive-md">
@@ -21,10 +21,10 @@ class TablaSiglas extends React.Component {
 
                 <tbody>
                 {
-                    siglasAgrupadas.map(siglaAgrupada =>
+                    siglas.map(sigla =>
                         <FilaTablaSiglas
-                            key={siglaAgrupada.sigla}
-                            siglaAgrupada={siglaAgrupada}
+                            key={sigla.sigla}
+                            sigla={sigla}
                             borrarSigla={borrarSigla}
                             elegirSeccion={elegirSeccion}
                             seccionesSeleccionadas={seccionesSeleccionadas}
