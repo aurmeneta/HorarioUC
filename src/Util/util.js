@@ -1,4 +1,4 @@
-const buscaCursos = require("buscacursos-uc");
+import buscaCursos, { Curso, ChoquesPermitidos } from "buscacursos-uc"
 
 import { Sigla } from './Sigla';
 
@@ -21,178 +21,77 @@ const HORA_MODULOS = [
     "18:30",
     "20:00",
 ]
-/**
- * Comprueba que dos cursos o grupos de cursos tengan el mismo horario.
- * @param curso1: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
- * @param curso2: objeto curso retornado por BuscaCursos. Objeto grupo también es compatible.
- * @returns {boolean}
- */
-const mismoHorario = (curso1, curso2) => {
-    // TODO: Comprobar que todos los horarios de curso2 estén en curso1.
-    return curso1.horario.every(horario1 => {
-        return curso2.horario.some(horario2 => {
-            return horario1.tipo === horario2.tipo && horario1.dia === horario2.dia && horario1.hora === horario2.hora;
-        });
-    });
-}
-
-/**
- * Comprueba que dos cursos o grupo de cursos tengan horarios diferentes.
- * @param curso1: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
- * @param curso2: objeto curso retornado por buscaCursos. Objeto grupo también es compatible.
- * @returns {boolean}
- */
-const distintoHorario = (curso1, curso2) => {
-    const horario1 = curso1.horario;
-    const horario2 = curso2.horario;
-
-    // Comprobar que cada horario de horario1 no choque a algún horario de horario2.
-    return horario1.every(horario1 => {
-        return horario2.every(horario2 => {
-            return (
-                (horario1.dia === horario2.dia && horario1.hora !== horario2.hora) ||   // Horarios son el mismo día, pero en horas distintas.
-                (horario1.dia !== horario2.dia)) ||   // Horarios son en dias distintos.
-                (horario1.dia === 'SIN HORARIO') ||   // Horario1 no tiene horario.
-                (horario2.dia === 'SIN HORARIO') // Horario2 no tiene horario.
-
-        });
-    });
-}
-
-/**
- * Comprueba que un grupo de cursos sea compatible con una combinación de grupos.
- * Es decir, que tenga horario distinto a cada grupo de la compinación.
- * @param combinacion
- * @param grupo
- * @returns {boolean}
- */
-const compatibles = (combinacion, grupo) => {
-    return combinacion.every(g => distintoHorario(g, grupo));
-}
 
 /**
  * Busca una lista de siglas en buscaCursos para el semestre indicado.
  * @param periodo: semestre en el que se realiza la búsqueda.
- * @param siglas: sigla de los cursos a buscar.
+ * @param string_siglas: siglas de los cursos a buscar.
  * @returns {Promise<Sigla[]>}
  */
-const buscarSiglas = async (periodo, siglas) => {
-    return await Promise.all(siglas.map(async sigla => await buscarSigla(periodo, sigla)))
+const buscarSiglas = async (periodo, string_siglas) => {
+    return await Promise.all(string_siglas.map(async string_sigla => await buscarSigla(periodo, string_sigla)))
 }
 /**
  * Busca la sigla indicada en el semestre indicado en buscaCursos.
  * @param periodo
- * @param _sigla
+ * @param string_sigla
  * @returns {Promise<Sigla>}
  */
-const buscarSigla = async (periodo, _sigla) => {
+const buscarSigla = async (periodo, string_sigla) => {
     // Busca la sigla en buscaCursos.
-    const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, _sigla);
+    const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, string_sigla);
 
     // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
-    const seccionesSinOrdenar = seccionesSinVerificar.filter(seccion => seccion.sigla === _sigla);
+    const secciones = seccionesSinVerificar.filter(seccion => seccion.sigla === string_sigla);
 
     // Si no hay resultados, retorna un objeto Sigla por defecto.
-    if (seccionesSinOrdenar.length === 0) return new Sigla(_sigla, "SIN RESULTADOS", [], 0);
+    if (secciones.length === 0) return new Sigla(string_sigla, "SIN RESULTADOS", [], 0);
 
-    // Ordena los cursos por número de sección. TODO: debería estar implementado en buscaCursos o en la clase Sigla.
-    const secciones = seccionesSinOrdenar.sort( (s1, s2) => s1.seccion - s2.seccion);
-
-    // Obtiene información
+    // Obtiene información de la sigla.
     let { sigla, nombre } = secciones[0];
-    let n_secciones = secciones.length;
 
-    return new Sigla(sigla, nombre, secciones, n_secciones);
-}
-
-
-// Agrupa secciones de una sigla que coincidan en sus horarios.
-const agruparSiglaPorHorario = (siglaSinAgrupar) => {
-    let { sigla, n_secciones, nombre, secciones } = siglaSinAgrupar;
-    let seccionesSinAgrupar = [...secciones];
-    let grupos = [];
-
-
-    while(seccionesSinAgrupar.length !== 0){
-        let seccion = seccionesSinAgrupar.shift();
-        let { horario } = seccion;
-        let secciones = [];
-
-        seccionesSinAgrupar.forEach(seccion2 => {
-            if (mismoHorario(seccion, seccion2)) {
-                secciones.push(seccion2);
-            }
-        });
-
-        secciones.forEach(seccion2 => seccionesSinAgrupar.splice(seccionesSinAgrupar.indexOf(seccion2), 1));
-        secciones.push(seccion);
-
-        grupos.push({
-            sigla,
-            nombre,
-            secciones,
-            horario,
-            n_secciones: secciones.length});
-    }
-
-    return {sigla, grupos, n_secciones, nombre, secciones};
+    // Devuelve un objeto Sigla.
+    return new Sigla(sigla, nombre, secciones);
 }
 
 // Generar combinaciones de cursos desde un array con los cursos agrupados por sigla y horario.
-const generarCombinaciones = (siglasAgrupadasPorHorario) => {
-    // Obtener combinaciones compatibles.
-    let siglasAgrupadas = [...siglasAgrupadasPorHorario];
-    let siglaAgrupada = siglasAgrupadas.shift();
-    let combinaciones = siglaAgrupada.grupos.map(grupo => [grupo]);
+const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
+    // Guarda una copia de las siglas a combinar.
+    let siglas = [...siglasOriginales];
+    // Obtiene la primera sigla.
+    let sigla = siglas.shift();
 
-    while (siglasAgrupadas.length !== 0){
+    // Crea las primeras combinaciones, que corresponden a los grupos de cada sigla.
+    // Cada combinación es un arreglo.
+    let combinaciones = sigla.grupos.map(grupo => [grupo]);
+
+    // Repetir hasta que no haya más siglas que combinar.
+    while (siglas.length !== 0){
         let nuevasCombinaciones = [];
-        siglaAgrupada = siglasAgrupadas.pop();
+        // Obtiene la siguiente sigla a combinar.
+        sigla = siglas.shift();
 
+        // Comprueba que cada combinación sea compatible con cada grupo de la sigla.
         combinaciones.forEach(combinacion => {
-            siglaAgrupada.grupos.forEach(grupo => {
-                if (compatibles(combinacion, grupo)) {
+            // Repetir para cada grupo de la sigla
+            sigla.grupos.forEach(grupo => {
+                let compatibles = combinacion.every(grupo2 => Curso.horariosCompatibles(grupo, grupo2, choquesPermitidos))
+
+                if (compatibles) {
+                    // Copia la combinación.
                     let nuevaCombinacion = [...combinacion];
+                    // Añade el nuevo grupo.
                     nuevaCombinacion.push(grupo);
+                    // Guarda la combinación.
                     nuevasCombinaciones.push(nuevaCombinacion);
                 }
             });
         });
 
+        // Reescribir las combinaciones con las combinaciones que incluyen la nueva sigla.
         combinaciones = nuevasCombinaciones;
     }
     return combinaciones;
 }
 
-const filtrarSiglasSegunSelecciones = (siglasSinAgrupar, seccionesSeleccionadas) => {
-    const siglasFiltradasSinAgrupar = [];
-
-    siglasSinAgrupar.forEach(siglaSinAgrupar => {
-        const { sigla } = siglaSinAgrupar;
-        const seccionSeleccionada = seccionesSeleccionadas.find( (siglaSeleccionada) => siglaSeleccionada.sigla === sigla);
-
-        if (seccionSeleccionada) {
-            const { seccion } = seccionSeleccionada;
-
-            if (seccion === 0) siglasFiltradasSinAgrupar.push(siglaSinAgrupar);
-            else {
-                const {nombre, secciones} = siglaSinAgrupar;
-                const seccionesFiltradas = [secciones.find(s => s.seccion === seccion)];
-
-                siglasFiltradasSinAgrupar.push({
-                    nombre,
-                    sigla,
-                    n_secciones: seccionesFiltradas.length,
-                    secciones: seccionesFiltradas
-                });
-            }
-
-        } else {
-            siglasFiltradasSinAgrupar.push(siglaSinAgrupar);
-        }
-    });
-
-    return siglasFiltradasSinAgrupar;
-}
-
-export {DIAS, NUMERO_MODULOS, HORA_MODULOS, mismoHorario, distintoHorario, compatibles, buscarSigla, buscarSiglas, agruparSiglaPorHorario, generarCombinaciones, filtrarSiglasSegunSelecciones}
+export {DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones }

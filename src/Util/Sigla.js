@@ -1,9 +1,12 @@
+import { Curso } from "buscacursos-uc";
+
 class Sigla {
-    constructor(sigla, nombre, secciones, n_secciones) {
+    constructor(sigla, nombre, secciones) {
         this.sigla = sigla;
         this.nombre = nombre;
         this.secciones = secciones.sort( (a ,b) => a.seccion - b.seccion);
-        this.n_secciones = n_secciones;
+        this.n_secciones = secciones.length;
+        this.grupos = this.agruparPorHorario()
     }
 
     /**
@@ -19,10 +22,6 @@ class Sigla {
         return new Sigla(this.sigla, this.nombre, seccionesFiltradas, seccionesFiltradas.length);
     }
 
-    get grupos() {
-        return this.agruparPorHorario();
-    }
-
     agruparPorHorario() {
         let secciones = [...this.secciones];
         let grupos = [];
@@ -32,20 +31,31 @@ class Sigla {
             let { horario } = seccion;
 
             // Arreglo para guardar secciones con el mismo horario.
-            let grupo = [];
+            let secciones_grupo = [];
 
+            // Busca las secciones que tengan el mismo horario.
+            secciones_grupo = secciones.filter(seccion2 => Curso.mismoHorario(seccion, seccion2));
+
+            // Elimina las secciones del array original para no duplicar grupos.
+            secciones_grupo.forEach(seccion_grupo => secciones.splice(secciones.indexOf(seccion_grupo), 1));
+
+            secciones_grupo.unshift(seccion);
             //secciones
+            grupos.push(new Grupo(seccion.sigla, seccion.nombre, secciones_grupo, horario));
         }
-
         return grupos
     }
 }
 
-class Grupo extends Sigla {
-    constructor(sigla, nombre, secciones, n_secciones, horario) {
-        super(sigla, nombre, secciones, n_secciones);
+class Grupo {
+    constructor(sigla, nombre, secciones, horario) {
+        this.sigla = sigla
         this.horario = horario;
+        this.nombre = nombre
+        this.secciones = secciones
+        this.n_secciones = secciones.length
     }
 }
 
 export { Sigla };
+export default Sigla

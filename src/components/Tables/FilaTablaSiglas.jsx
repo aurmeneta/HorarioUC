@@ -1,21 +1,21 @@
 import React from 'react';
 
 function FilaTablaSiglas (props) {
-    const { siglaAgrupada, borrarSigla, seccionesSeleccionadas, elegirSeccion } = props;
-    const { sigla, grupos, secciones } = siglaAgrupada;
+    const { sigla, borrarSigla, seccionesSeleccionadas, elegirSeccion } = props;
+    const { sigla: string_sigla, grupos, secciones } = sigla;
 
-    const seccionSeleccionada = seccionesSeleccionadas.find(seccionSeleccionada => seccionSeleccionada.sigla === sigla);
+    const seccionSeleccionada = seccionesSeleccionadas.find(seccionSeleccionada => seccionSeleccionada.sigla === string_sigla);
 
-    let seccion = 0;
-    if (seccionSeleccionada) seccion = seccionSeleccionada.seccion;
+    let nSeccionSeleccionada = 0;
+    if (seccionSeleccionada) nSeccionSeleccionada = seccionSeleccionada.seccion;
 
     return (
         <tr>
-            <td>{sigla}</td>
-            <td>{siglaAgrupada.nombre}</td>
-            <td>{siglaAgrupada.n_secciones}</td>
+            <td>{string_sigla}</td>
+            <td>{sigla.nombre}</td>
+            <td>{sigla.n_secciones}</td>
             <td>
-                <select className="form-control-sm" name={sigla} value={seccion} onChange={elegirSeccion}>
+                <select className="form-control-sm" name={string_sigla} value={nSeccionSeleccionada} onChange={elegirSeccion}>
                     <option value={0}>Todas</option>
                     {
                         secciones.map(({seccion}, index) => <option key={index} value={seccion}>{seccion}</option>)
