@@ -28,10 +28,10 @@ import { ChoquesPermitidos } from 'buscacursos-uc';
 const periodo = "2021-1";
 const siglasDefault = [
     "MAT1630",
-    /*"MAT1640",
-    "FIS0152",
-    "IIQ1003",
-"ICE2006"*/]
+    "MAT1640",
+    "FIS1523",
+    "ICE2006",
+    "FIS0152"]
 
 
 class App extends React.Component {
@@ -147,7 +147,7 @@ class App extends React.Component {
         })
 
         // Genera las combinaciones.
-        let combinaciones = util.generarCombinaciones(siglas, choquesPermitidos);
+        let combinaciones = util.generarCombinaciones(siglasFiltradas, choquesPermitidos);
 
         // Guardar las combinaciones y bajar flag de cambios
         this.setState({combinaciones, cambios: false})
