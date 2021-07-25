@@ -25,13 +25,14 @@ import ChoquesCard from "./components/Cards/ChoquesCard"
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ChoquesPermitidos } from 'buscacursos-uc';
 
-const periodo = "2021-1";
+const periodo = "2021-2";
 const siglasDefault = [
-    "MAT1630",
-    "MAT1640",
-    "FIS1523",
-    "ICE2006",
-    "FIS0152"]
+    "FIS1533",
+    "FIS0153",
+    "EYP1113",
+    "BIO141C",
+    "IIC2233",
+    "ICT2904"]
 
 
 class App extends React.Component {
