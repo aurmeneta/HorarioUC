@@ -199,9 +199,11 @@ class App extends React.Component {
                     <BuscarCursoCard agregarSigla={this.agregarSigla} buscando={buscando} errorEnBusqueda={errorEnBusqueda}/>
                 </div>
 
+                {/*
                 <div className="row">
                     <ChoquesCard />
                 </div>
+                */}
 
                 <div className="row">
                     <CombinacionesCard combinaciones={combinaciones}/>
