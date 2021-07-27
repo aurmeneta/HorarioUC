@@ -29,10 +29,7 @@ const periodo = "2021-2";
 const siglasDefault = [
     "FIS1533",
     "FIS0153",
-    "EYP1113",
-    "BIO141C",
-    "IIC2233",
-    "ICT2904"]
+    "EYP1113"]
 
 
 class App extends React.Component {
