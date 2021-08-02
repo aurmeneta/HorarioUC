@@ -57,6 +57,14 @@ class App extends React.Component {
     borrarSigla(event, sigla) {
         event.preventDefault();
 
+        if (gtag){
+            gtag('event', 'del_sigla', {
+                'event_category': 'siglas',
+                'event_label': 'borrar sigla',
+                'value': sigla.sigla
+            })
+        } 
+
         // Eliminar la Sigla del array de siglas y strings de siglas.
         this.setState((prevState) => {
             let { siglas, string_siglas } = prevState;
@@ -79,9 +87,12 @@ class App extends React.Component {
             // Revisar que sigla no haya sido añadida anteriormente.
             if ( !string_siglas.includes(sigla) ) {
                 string_siglas.push(sigla);
-                console.log(gtag)
                 if (gtag){
-                    gtag("event", "añadir", sigla)
+                    gtag('event', 'add_sigla', {
+                        'event_category': 'siglas',
+                        'event_label': 'añadir sigla',
+                        'value': sigla
+                    })
                 } 
             } 
             return { string_siglas, cambios: true };
