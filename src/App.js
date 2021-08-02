@@ -26,10 +26,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ChoquesPermitidos } from 'buscacursos-uc';
 
 const periodo = "2021-2";
-const siglasDefault = [
-    "FIS1533",
-    "FIS0153",
-    "EYP1113"]
+const siglasDefault = []
 
 
 class App extends React.Component {
