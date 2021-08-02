@@ -15,10 +15,10 @@ function FilaTablaSiglas (props) {
             <td>{sigla.nombre}</td>
             <td>{sigla.n_secciones}</td>
             <td>
-                <select className="form-control-sm" name={string_sigla} value={nSeccionSeleccionada} onChange={elegirSeccion}>
+                <select className="form-control-sm w-75" name={string_sigla} value={nSeccionSeleccionada} onChange={elegirSeccion}>
                     <option value={0}>Todas</option>
                     {
-                        secciones.map(({seccion}, index) => <option key={index} value={seccion}>{seccion}</option>)
+                        secciones.map(({seccion, profesor}, index) => <option key={index} value={seccion}>{seccion + " - " + profesor.join(", ")}</option>)
                     }
                 </select>
             </td>
