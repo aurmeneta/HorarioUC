@@ -77,7 +77,13 @@ class App extends React.Component {
             let { string_siglas } = prevState;
 
             // Revisar que sigla no haya sido añadida anteriormente.
-            if ( !string_siglas.includes(sigla) ) string_siglas.push(sigla);
+            if ( !string_siglas.includes(sigla) ) {
+                string_siglas.push(sigla);
+                console.log(gtag)
+                if (gtag){
+                    gtag("event", "añadir", sigla)
+                } 
+            } 
             return { string_siglas, cambios: true };
         });
     }
