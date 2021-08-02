@@ -24,9 +24,11 @@ import CombinacionesCard from "./components/Cards/CombinacionesCard";
 import ChoquesCard from "./components/Cards/ChoquesCard"
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ChoquesPermitidos } from 'buscacursos-uc';
+import Cookies from 'js-cookie';
 
 const periodo = "2021-2";
-const siglasDefault = [
+const cookieName = "siglas"
+let siglasDefault = [
     "EYP1113",
     "FIS1533"
 ]
@@ -35,6 +37,12 @@ const siglasDefault = [
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+        let saved = Cookies.get(cookieName)
+
+        if (saved) {
+            siglasDefault = saved.split(",")
+        }
 
         this.state = {
             string_siglas: siglasDefault,
@@ -52,6 +60,12 @@ class App extends React.Component {
         this.generarCombinaciones = this.generarCombinaciones.bind(this);
         this.borrarSigla = this.borrarSigla.bind(this);
         this.elegirSeccion = this.elegirSeccion.bind(this);
+        this.updateCookie = this.updateCookie.bind(this);
+    }
+
+    updateCookie() {
+        let val = this.state.string_siglas.join(",")
+        Cookies.set(cookieName, val, {expires: 30})
     }
 
     borrarSigla(event, sigla) {
@@ -196,6 +210,7 @@ class App extends React.Component {
     componentDidUpdate() {
         this.buscarSiglas();
         this.generarCombinaciones();
+        this.updateCookie();
     }
 
     componentDidMount() {

@@ -1,6 +1,6 @@
 {
   "name": "horario-uc",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Planificador de cursos de la UC.",
   "main": "src/index.js",
   "scripts": {
@@ -27,6 +27,7 @@
     "@babel/runtime": "^7.14.8",
     "bootstrap": "^4.6.0",
     "buscacursos-uc": "git+https://git@github.com/aurmeneta/BuscaCursosUC.git#master",
+    "js-cookie": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0"
