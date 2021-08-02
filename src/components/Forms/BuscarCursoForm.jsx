@@ -43,11 +43,16 @@ class BuscarCursoForm extends React.Component {
                     </div>
                 </div>
 
+                <div className="alert alert-warning col-md-8 col-sm-9">
+                    Busca solo la sigla del curso, la sección o el profesor lo podrás elegir después.
+                </div>
+
                 <div className="form-group row">
                     <label className="col-md-5 col-sm-3 col-form-label">Sigla</label>
                     <div className="col-md-8 col-sm-9">
                         <input type="text" name="sigla"
                                className="form-control"
+                               placeholder="MAT1620"
                                value={this.state.sigla}
                                onChange={this.onWrite}/>
                     </div>
