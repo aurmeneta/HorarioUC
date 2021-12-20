@@ -29,16 +29,17 @@ module.exports = {
         clean: true
     },
     devServer: {
-        contentBase: path.join(__dirname, "dev-static/"),
         port: 3000,
-        publicPath: "http://localhost:3000/dist/",
-        hotOnly: true
+        hot: 'only',
+        static: {
+            directory: path.join(__dirname, "dev-static/"),
+            publicPath: "http://localhost:3000/dist/",
+        }
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin({
             patterns: [
-                {from: 'public'}
+                { from: 'public' }
             ]
         })]
 }

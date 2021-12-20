@@ -24,9 +24,9 @@
   },
   "homepage": "http://aurmeneta.github.io/HorarioUC",
   "dependencies": {
+    "@aurmeneta/buscacursos-uc": "^1.2.0",
     "@babel/runtime": "^7.14.8",
     "bootstrap": "^4.6.0",
-    "@aurmeneta/buscacursos-uc": "^1.2.0",
     "js-cookie": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -46,6 +46,6 @@
     "style-loader": "^3.2.1",
     "webpack": "^5.46.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.6.0"
   }
 }
