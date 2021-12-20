@@ -1,10 +1,10 @@
-import { Curso } from "buscacursos-uc";
+import { Curso } from "@aurmeneta/buscacursos-uc";
 
 class Sigla {
     constructor(sigla, nombre, secciones) {
         this.sigla = sigla;
         this.nombre = nombre;
-        this.secciones = secciones.sort( (a ,b) => a.seccion - b.seccion);
+        this.secciones = secciones.sort((a, b) => a.seccion - b.seccion);
         this.n_secciones = secciones.length;
         this.grupos = this.agruparPorHorario()
     }
@@ -26,7 +26,7 @@ class Sigla {
         let secciones = [...this.secciones];
         let grupos = [];
 
-        while(secciones.length > 0) {
+        while (secciones.length > 0) {
             let seccion = secciones.shift();
             let { horario } = seccion;
 

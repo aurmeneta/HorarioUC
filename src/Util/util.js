@@ -1,4 +1,4 @@
-import buscaCursos, { Curso, ChoquesPermitidos } from "buscacursos-uc"
+import buscaCursos, { Curso, ChoquesPermitidos } from "@aurmeneta/buscacursos-uc"
 
 import { Sigla } from './Sigla';
 
@@ -22,6 +22,8 @@ const HORA_MODULOS = [
     "20:00",
 ]
 
+const URL_BUSCACURSOS = "https://buscacursos.aurmeneta.cl/?"
+
 /**
  * Busca una lista de siglas en buscaCursos para el semestre indicado.
  * @param periodo: semestre en el que se realiza la búsqueda.
@@ -39,7 +41,7 @@ const buscarSiglas = async (periodo, string_siglas) => {
  */
 const buscarSigla = async (periodo, string_sigla) => {
     // Busca la sigla en buscaCursos.
-    const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, string_sigla);
+    const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, string_sigla, URL_BUSCACURSOS);
 
     // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
     const secciones = seccionesSinVerificar.filter(seccion => seccion.sigla === string_sigla);
@@ -66,7 +68,7 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
     let combinaciones = sigla.grupos.map(grupo => [grupo]);
 
     // Repetir hasta que no haya más siglas que combinar.
-    while (siglas.length !== 0){
+    while (siglas.length !== 0) {
         let nuevasCombinaciones = [];
         // Obtiene la siguiente sigla a combinar.
         sigla = siglas.shift();
@@ -94,4 +96,4 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
     return combinaciones;
 }
 
-export {DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones }
+export { DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones }
