@@ -26,7 +26,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
 import Cookies from 'js-cookie';
 
-const periodo = "2021-2";
+const periodo = "2022-1";
 const cookieName = "siglas"
 let siglasDefault = [
     "EYP1113",
