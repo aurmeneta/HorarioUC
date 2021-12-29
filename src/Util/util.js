@@ -1,4 +1,4 @@
-import buscaCursos, { Curso, ChoquesPermitidos } from "@aurmeneta/buscacursos-uc"
+import { cursos } from "@aurmeneta/buscacursos-uc"
 
 import { Sigla } from './Sigla';
 
@@ -22,7 +22,7 @@ const HORA_MODULOS = [
     "20:00",
 ]
 
-const URL_BUSCACURSOS = "https://buscacursos.aurmeneta.cl/?"
+const URL_BUSCACURSOS = "https://buscacursos.aurmeneta.cl/"
 
 /**
  * Busca una lista de siglas en buscaCursos para el semestre indicado.
@@ -37,11 +37,11 @@ const buscarSiglas = async (periodo, string_siglas) => {
  * Busca la sigla indicada en el semestre indicado en buscaCursos.
  * @param periodo
  * @param string_sigla
- * @returns {Promise<Sigla>}
+ * @returns {Sigla}
  */
 const buscarSigla = async (periodo, string_sigla) => {
     // Busca la sigla en buscaCursos.
-    const seccionesSinVerificar = await buscaCursos.buscarSigla(periodo, string_sigla, URL_BUSCACURSOS);
+    const seccionesSinVerificar = await cursos.buscarSigla(periodo, string_sigla, URL_BUSCACURSOS);
 
     // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
     const secciones = seccionesSinVerificar.filter(seccion => seccion.sigla === string_sigla);
@@ -77,7 +77,7 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
         combinaciones.forEach(combinacion => {
             // Repetir para cada grupo de la sigla
             sigla.grupos.forEach(grupo => {
-                let compatibles = combinacion.every(grupo2 => Curso.horariosCompatibles(grupo, grupo2, choquesPermitidos))
+                let compatibles = combinacion.every(grupo2 => cursos.Curso.horariosCompatibles(grupo, grupo2, choquesPermitidos))
 
                 if (compatibles) {
                     // Copia la combinación.

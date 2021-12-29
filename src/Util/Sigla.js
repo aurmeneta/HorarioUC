@@ -1,4 +1,4 @@
-import { Curso } from "@aurmeneta/buscacursos-uc";
+import { cursos } from "@aurmeneta/buscacursos-uc";
 
 class Sigla {
     constructor(sigla, nombre, secciones) {
@@ -34,7 +34,7 @@ class Sigla {
             let secciones_grupo = [];
 
             // Busca las secciones que tengan el mismo horario.
-            secciones_grupo = secciones.filter(seccion2 => Curso.mismoHorario(seccion, seccion2));
+            secciones_grupo = secciones.filter(seccion2 => cursos.Curso.mismoHorario(seccion, seccion2));
 
             // Elimina las secciones del array original para no duplicar grupos.
             secciones_grupo.forEach(seccion_grupo => secciones.splice(secciones.indexOf(seccion_grupo), 1));
