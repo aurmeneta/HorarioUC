@@ -23,14 +23,15 @@ import BuscarCursoCard from "./components/Cards/BuscarCursoCard";
 import CombinacionesCard from "./components/Cards/CombinacionesCard";
 import ChoquesCard from "./components/Cards/ChoquesCard"
 import ErrorBoundary from "./components/ErrorBoundary";
+import ModalCupos from "./components/ModalCupos"
+
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
 import Cookies from 'js-cookie';
 
 const periodo = "2022-1";
 const cookieName = "siglas"
 let siglasDefault = [
-    "EYP1113",
-    "FIS1533"
+    "ING2030",
 ]
 
 
@@ -52,7 +53,8 @@ class App extends React.Component {
             cambios: true,
             buscando: false,
             errorEnBusqueda: undefined,
-            choquesPermitidos: new ChoquesPermitidos()
+            choquesPermitidos: new ChoquesPermitidos(),
+            cursoCupos: {nrc: "15388", sigla: "ING2030-2", nombre: "Investigación, Innovación y Emprendimiento"}
         }
 
         this.agregarSigla = this.agregarSigla.bind(this);
@@ -223,7 +225,10 @@ class App extends React.Component {
         return (
             <div>
                 <Navbar />
-
+                <ModalCupos 
+                    curso = {this.state.cursoCupos}
+                    periodo={periodo}/>
+                <button className="link" data-toggle="modal" data-target="#modalCupos">Ver detalles</button>
                 <div className="row">
                     <CursosCard
                         siglas={siglas}

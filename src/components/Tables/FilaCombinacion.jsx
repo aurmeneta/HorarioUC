@@ -28,6 +28,7 @@ class FilaCombinacion extends React.Component {
                             <td>{nrc}</td>
                             <td>{profesor.toLocaleString().replace(",", ", ")}</td>
                             <td>{vacantes_disponibles}</td>
+                            <td><button className="link" data-toggle="modal" data-target="#modalCupos">Ver detalles</button></td>
                         </tr>
                     )
                 }

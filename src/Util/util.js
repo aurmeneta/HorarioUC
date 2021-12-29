@@ -1,4 +1,4 @@
-import { cursos } from "@aurmeneta/buscacursos-uc"
+import { cursos, cupos } from "@aurmeneta/buscacursos-uc"
 
 import { Sigla } from './Sigla';
 
@@ -23,6 +23,7 @@ const HORA_MODULOS = [
 ]
 
 const URL_BUSCACURSOS = "https://buscacursos.aurmeneta.cl/"
+const URL_CUPOS = "https://buscacursos.aurmeneta.cl/informacionVacReserva.ajax.php"
 
 /**
  * Busca una lista de siglas en buscaCursos para el semestre indicado.
@@ -96,4 +97,14 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
     return combinaciones;
 }
 
-export { DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones }
+/**
+ * Obtener los cupos disponibles de un curso desagregados por escuela.
+ * @param periodo: período en el que se rinde el curso
+ * @param nrc: nrc del curso
+ * @returns {}
+ */
+const obtenerCupos = async (periodo, nrc) => {
+    return await cupos.obtenerCupos(periodo, nrc, URL_CUPOS)
+}
+
+export { DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones, obtenerCupos }

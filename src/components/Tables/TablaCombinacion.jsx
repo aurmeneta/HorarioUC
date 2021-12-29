@@ -16,6 +16,7 @@ class TablaCombinacion extends React.Component {
                             <th>NRC</th>
                             <th>Profesor</th>
                             <th>Vacantes disponibles</th>
+                            <th>Detalle vacantes</th>
                         </tr>
                     </thead>
 
