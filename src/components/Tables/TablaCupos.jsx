@@ -6,10 +6,10 @@ class TablaCupos extends React.Component {
     render() {
         console.log(this.props.cupos)
         return(
-            <table className="table table-sm">
+            <table className="table table-sm table-responsive">
                 <thead>
                     <tr>
-                        <th>Escuela</th>
+                        <th className="pl-3">Escuela</th>
                         <th>Vacantes ofrecidas</th>
                         <th>Vacantes ocupadas</th>
                         <th>Vacantes libres</th>

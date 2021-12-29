@@ -60,7 +60,7 @@ class ModalCupos extends React.Component {
         } else {
             return (
                 <div className="modal" tabIndex="-1" id="modalCupos">
-                    <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>
@@ -68,7 +68,7 @@ class ModalCupos extends React.Component {
                                     <span>&times;</span>
                                 </button>
                             </div>
-                            <div className="modal-body">
+                            <div className="modal-body p-0">
                                 <TablaCupos cupos={this.state.cupos}/>
                             </div>
                             <div className="modal-footer">

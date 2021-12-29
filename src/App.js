@@ -225,31 +225,32 @@ class App extends React.Component {
         return (
             <div>
                 <Navbar />
-                <ModalCupos 
+                <div className="container-fluid">
+                    <ModalCupos 
                     curso = {this.state.cursoCupos}
                     periodo={periodo}/>
-                <button className="link" data-toggle="modal" data-target="#modalCupos">Ver detalles</button>
-                <div className="row">
-                    <CursosCard
-                        siglas={siglas}
-                        combinaciones={combinaciones}
-                        borrarSigla={this.borrarSigla}
-                        seccionesSeleccionadas={seccionesSeleccionadas}
-                        elegirSeccion={this.elegirSeccion} />
+                    <button className="link" data-toggle="modal" data-target="#modalCupos">Ver detalles</button>
+                    <div className="row">
+                        <CursosCard
+                            siglas={siglas}
+                            combinaciones={combinaciones}
+                            borrarSigla={this.borrarSigla}
+                            seccionesSeleccionadas={seccionesSeleccionadas}
+                            elegirSeccion={this.elegirSeccion} />
 
-                    <BuscarCursoCard agregarSigla={this.agregarSigla} buscando={buscando} errorEnBusqueda={errorEnBusqueda} />
+                        <BuscarCursoCard agregarSigla={this.agregarSigla} buscando={buscando} errorEnBusqueda={errorEnBusqueda} />
+                    </div>
+
+                    {/*
+                    <div className="row">
+                        <ChoquesCard />
+                    </div>
+                    */}
+
+                    <div className="row">
+                        <CombinacionesCard combinaciones={combinaciones} />
+                    </div>
                 </div>
-
-                {/*
-                <div className="row">
-                    <ChoquesCard />
-                </div>
-                */}
-
-                <div className="row">
-                    <CombinacionesCard combinaciones={combinaciones} />
-                </div>
-
             </div>
         );
     }
