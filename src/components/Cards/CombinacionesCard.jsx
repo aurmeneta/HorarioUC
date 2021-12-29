@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Horario from '../Tables/Horario';
 import TablaCombinacion from '../Tables/TablaCombinacion';
 import ErrorBoundary from '../ErrorBoundary';
+import Grupo from '../../Util/Grupo';
 
 class CombinacionesCard extends React.Component {
   constructor(props) {
@@ -14,6 +16,20 @@ class CombinacionesCard extends React.Component {
 
     this.siguiente = this.siguiente.bind(this);
     this.anterior = this.anterior.bind(this);
+    this.resetIndex = this.resetIndex.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevCom = prevProps.combinaciones;
+    const { combinaciones: newCom } = this.props;
+
+    if (prevCom !== newCom) {
+      this.resetIndex();
+    }
+  }
+
+  resetIndex() {
+    this.setState({ index: 0 });
   }
 
   siguiente(event) {
@@ -35,20 +51,12 @@ class CombinacionesCard extends React.Component {
       const { index } = state;
 
       if (index > 0) return { index: index - 1 };
+      return {};
     });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const prevCom = prevProps.combinaciones;
-    const newCom = this.props.combinaciones;
-
-    if (prevCom !== newCom) {
-      this.setState({ index: 0 });
-    }
-  }
-
   render() {
-    const { combinaciones } = this.props;
+    const { combinaciones, guardarCursoCupos } = this.props;
     const { length } = combinaciones;
     let { index } = this.state;
 
@@ -66,20 +74,23 @@ class CombinacionesCard extends React.Component {
               <h5 className="card-title">{`Combinación ${index + 1}`}</h5>
 
               <div className="text-center m-2 btn-group">
-                <button className="btn btn-secondary" onClick={this.anterior}>Anterior</button>
-                <button className="btn btn-secondary" onClick={this.siguiente}>Siguiente</button>
+                <button className="btn btn-secondary" onClick={this.anterior} type="button">Anterior</button>
+                <button className="btn btn-secondary" onClick={this.siguiente} type="button">Siguiente</button>
               </div>
 
               {
-                                combinaciones.length === 0 ? <p>No hay combinaciones</p>
-                                  : (
-                                    <div className="row">
-                                      <Horario combinacion={combinaciones[index]} />
-                                      <TablaCombinacion combinacion={combinaciones[index]} {...this.props} />
-                                      <br />
-                                    </div>
-                                  )
-                            }
+              combinaciones.length === 0 ? <p>No hay combinaciones</p>
+                : (
+                  <div className="row">
+                    <Horario combinacion={combinaciones[index]} />
+                    <TablaCombinacion
+                      combinacion={combinaciones[index]}
+                      guardarCursoCupos={guardarCursoCupos}
+                    />
+                    <br />
+                  </div>
+                )
+              }
             </ErrorBoundary>
           </div>
         </div>
@@ -87,5 +98,10 @@ class CombinacionesCard extends React.Component {
     );
   }
 }
+
+CombinacionesCard.propTypes = {
+  combinaciones: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.instanceOf(Grupo))).isRequired,
+  guardarCursoCupos: PropTypes.func.isRequired,
+};
 
 export default CombinacionesCard;

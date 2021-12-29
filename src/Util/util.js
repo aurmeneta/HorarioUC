@@ -1,6 +1,6 @@
 import { cursos, cupos } from '@aurmeneta/buscacursos-uc';
 
-import { Sigla } from './Sigla';
+import Sigla from './Sigla';
 
 const DIAS = [
   'L',

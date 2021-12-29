@@ -1,5 +1,6 @@
 import 'bootstrap/dist/js/bootstrap.bundle';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { obtenerCupos } from '../Util/util';
 import TablaCupos from './Tables/TablaCupos';
@@ -14,35 +15,38 @@ class ModalCupos extends React.Component {
     };
   }
 
-  obtenerCupos() {
-    if (this.props.curso.nrc) {
-      this.setState({ cargando: true });
-      obtenerCupos(this.props.periodo, this.props.curso.nrc)
-        .then((cupos) => this.setState({ cupos, cargando: false }));
-    }
-  }
-
   componentDidMount() {
     this.obtenerCupos();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.curso.nrc !== this.props.curso.nrc) {
+    const { curso } = this.props;
+    if (prevProps.curso.nrc !== curso.nrc) {
       this.obtenerCupos();
+    }
+  }
+
+  obtenerCupos() {
+    const { curso, periodo } = this.props;
+    if (curso.nrc) {
+      this.setState({ cargando: true });
+      obtenerCupos(periodo, curso.nrc)
+        .then((cupos) => this.setState({ cupos, cargando: false }));
     }
   }
 
   render() {
     const { curso } = this.props;
+    const { cargando, cupos } = this.state;
 
-    if (this.state.cargando) {
+    if (cargando) {
       return (
         <div className="modal" tabIndex="-1" id="modalCupos">
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>
-                <button className="close" data-dismiss="modal">
+                <button className="close" data-dismiss="modal" type="button">
                   <span>&times;</span>
                 </button>
               </div>
@@ -52,7 +56,7 @@ class ModalCupos extends React.Component {
                 </div>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button className="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
               </div>
             </div>
           </div>
@@ -65,15 +69,15 @@ class ModalCupos extends React.Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>
-              <button className="close" data-dismiss="modal">
+              <button className="close" data-dismiss="modal" type="button">
                 <span>&times;</span>
               </button>
             </div>
             <div className="modal-body p-0">
-              <TablaCupos cupos={this.state.cupos} />
+              <TablaCupos cupos={cupos} />
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button className="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
             </div>
           </div>
         </div>
@@ -81,5 +85,18 @@ class ModalCupos extends React.Component {
     );
   }
 }
+
+ModalCupos.propTypes = {
+  curso: PropTypes.shape({
+    nrc: PropTypes.string,
+    nombre: PropTypes.string,
+    sigla: PropTypes.string,
+  }),
+  periodo: PropTypes.string.isRequired,
+};
+
+ModalCupos.defaultProps = {
+  curso: { nrc: '', sigla: '', nombre: '' },
+};
 
 export default ModalCupos;

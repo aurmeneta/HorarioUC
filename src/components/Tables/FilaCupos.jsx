@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function FilaCupos({ cupo }) {
   return (
@@ -10,5 +11,14 @@ function FilaCupos({ cupo }) {
     </tr>
   );
 }
+
+FilaCupos.propTypes = {
+  cupo: PropTypes.shape({
+    escuela: PropTypes.string,
+    vacantesDisponibles: PropTypes.number,
+    vacantesOcupadas: PropTypes.number,
+    vacantesOfrecidas: PropTypes.number,
+  }).isRequired,
+};
 
 export default FilaCupos;

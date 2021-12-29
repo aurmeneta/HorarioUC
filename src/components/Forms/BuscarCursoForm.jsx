@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import BotonAgregar from './BotonAgregar';
 
 class BuscarCursoForm extends React.Component {
@@ -25,21 +28,23 @@ class BuscarCursoForm extends React.Component {
     event.preventDefault();
 
     const { sigla } = this.state;
+    const { agregarSigla } = this.props;
 
     if (!sigla) return;
 
-    this.props.agregarSigla(this.state.sigla);
+    agregarSigla(sigla);
   }
 
   render() {
     const { buscando } = this.props;
+    const { sigla } = this.state;
 
     return (
       <form>
         <div className="form-group row">
-          <label className="col-md-5 col-sm-3 col-form-label">Semestre</label>
+          <label htmlFor="#periodoInput" className="col-md-5 col-sm-3 col-form-label">Semestre</label>
           <div className="col-md-8 col-sm-9">
-            <input type="text" readOnly className="form-control-plaintext" value="2022-1" />
+            <input id="periodoInput" type="text" readOnly className="form-control-plaintext" value="2022-1" />
           </div>
         </div>
 
@@ -55,7 +60,7 @@ class BuscarCursoForm extends React.Component {
               name="sigla"
               className="form-control"
               placeholder="MAT1620"
-              value={this.state.sigla}
+              value={sigla}
               onChange={this.onWrite}
             />
           </div>
@@ -66,5 +71,10 @@ class BuscarCursoForm extends React.Component {
     );
   }
 }
+
+BuscarCursoForm.propTypes = {
+  buscando: PropTypes.bool.isRequired,
+  agregarSigla: PropTypes.func.isRequired,
+};
 
 export default BuscarCursoForm;
