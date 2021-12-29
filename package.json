@@ -8,7 +8,9 @@
     "dev": "webpack serve --mode development",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "serve": "webpack serve --mode production"
+    "serve": "webpack serve --mode production",
+    "lint": "eslint . --ext .js,.jsx",
+    "format": "eslint . --fix --ext .js,.jsx"
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,12 @@
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^10.0.2",
     "css-loader": "^6.5.1",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
