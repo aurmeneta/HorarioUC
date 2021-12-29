@@ -79,7 +79,7 @@ class CombinacionesCard extends React.Component {
                                 combinaciones.length === 0 ? <p>No hay combinaciones</p> :
                                     <div className="row">
                                         <Horario combinacion={combinaciones[index]}/>
-                                        <TablaCombinacion combinacion={combinaciones[index]}/>
+                                        <TablaCombinacion combinacion={combinaciones[index]} {...this.props}/>
                                         <br/>
                                     </div>
                             }

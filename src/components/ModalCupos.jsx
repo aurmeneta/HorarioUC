@@ -15,9 +15,11 @@ class ModalCupos extends React.Component {
     }
 
     obtenerCupos() {
-        this.setState({ cargando: true })
-        obtenerCupos(this.props.periodo, this.props.curso.nrc)
+        if (this.props.curso.nrc) {
+            this.setState({ cargando: true })
+            obtenerCupos(this.props.periodo, this.props.curso.nrc)
                 .then(cupos => this.setState({ cupos, cargando: false }))
+        }
     }
 
     componentDidMount() {
@@ -60,7 +62,7 @@ class ModalCupos extends React.Component {
         } else {
             return (
                 <div className="modal" tabIndex="-1" id="modalCupos">
-                    <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>

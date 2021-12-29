@@ -15,14 +15,14 @@ class TablaCombinacion extends React.Component {
                             <th>Sección</th>
                             <th>NRC</th>
                             <th>Profesor</th>
-                            <th>Vacantes disponibles</th>
-                            <th>Detalle vacantes</th>
+                            <th>Cupos disponibles</th>
+                            <th>Detalle cupos</th>
                         </tr>
                     </thead>
 
                     <tbody>
                     {
-                        combinacion.map((grupo) => <FilaCombinacion key={grupo.sigla} grupo={grupo}/>)
+                        combinacion.map((grupo) => <FilaCombinacion key={grupo.sigla} grupo={grupo} {...this.props}/>)
                     }
                     </tbody>
                 </table>

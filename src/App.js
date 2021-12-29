@@ -54,7 +54,7 @@ class App extends React.Component {
             buscando: false,
             errorEnBusqueda: undefined,
             choquesPermitidos: new ChoquesPermitidos(),
-            cursoCupos: {nrc: "15388", sigla: "ING2030-2", nombre: "Investigación, Innovación y Emprendimiento"}
+            cursoCupos: {nrc: "", sigla: "", nombre: ""}
         }
 
         this.agregarSigla = this.agregarSigla.bind(this);
@@ -63,6 +63,11 @@ class App extends React.Component {
         this.borrarSigla = this.borrarSigla.bind(this);
         this.elegirSeccion = this.elegirSeccion.bind(this);
         this.updateCookie = this.updateCookie.bind(this);
+        this.guardarCursoCupos = this.guardarCursoCupos.bind(this);
+    }
+
+    guardarCursoCupos(curso) {
+        this.setState({ cursoCupos: curso })
     }
 
     updateCookie() {
@@ -248,7 +253,7 @@ class App extends React.Component {
                     */}
 
                     <div className="row">
-                        <CombinacionesCard combinaciones={combinaciones} />
+                        <CombinacionesCard combinaciones={combinaciones} guardarCursoCupos={this.guardarCursoCupos}/>
                     </div>
                 </div>
             </div>
