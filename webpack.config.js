@@ -1,6 +1,5 @@
 const path = require('path');
 // const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -10,7 +9,7 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         options: { presets: ['@babel/env'] },
       },
@@ -23,21 +22,16 @@ module.exports = {
   resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    filename: 'bundle.js',
+    filename: 'bundle-[contenthash].js',
     clean: true,
   },
   devServer: {
     port: 3000,
     hot: 'only',
-    static: {
-      directory: path.join(__dirname, 'dev-static/'),
-      publicPath: 'http://localhost:3000/dist/',
-    },
   },
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public' },
-      ],
-    })],
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+    }),
+  ],
 };
