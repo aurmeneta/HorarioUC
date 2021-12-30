@@ -1,4 +1,4 @@
-import 'bootstrap/dist/js/bootstrap.bundle';
+import 'bootstrap/js/src/modal';
 import React from 'react';
 import PropTypes from 'prop-types';
 

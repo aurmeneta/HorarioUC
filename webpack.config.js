@@ -22,7 +22,7 @@ module.exports = {
   resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    filename: 'bundle-[contenthash].js',
+    filename: '[name].[contenthash].js',
     clean: true,
   },
   devServer: {
@@ -34,4 +34,15 @@ module.exports = {
       template: 'src/index.html',
     }),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
