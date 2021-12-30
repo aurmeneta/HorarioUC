@@ -26,27 +26,20 @@ const URL_BUSCACURSOS = 'https://buscacursos.aurmeneta.cl/';
 const URL_CUPOS = 'https://buscacursos.aurmeneta.cl/informacionVacReserva.ajax.php';
 
 /**
- * Busca una lista de siglas en buscaCursos para el semestre indicado.
- * @param periodo: semestre en el que se realiza la búsqueda.
- * @param string_siglas: siglas de los cursos a buscar.
- * @returns {Promise<Sigla[]>}
- */
-const buscarSiglas = async (periodo, string_siglas) => await Promise.all(string_siglas.map(async (string_sigla) => await buscarSigla(periodo, string_sigla)));
-/**
  * Busca la sigla indicada en el semestre indicado en buscaCursos.
  * @param periodo
  * @param string_sigla
  * @returns {Sigla}
  */
-const buscarSigla = async (periodo, string_sigla) => {
+const buscarSigla = async (periodo, stringSigla) => {
   // Busca la sigla en buscaCursos.
-  const seccionesSinVerificar = await cursos.buscarSigla(periodo, string_sigla, URL_BUSCACURSOS);
+  const seccionesSinVerificar = await cursos.buscarSigla(periodo, stringSigla, URL_BUSCACURSOS);
 
   // Comprueba que los resultados correspondan a cursos con la misma sigla que se está buscando.
-  const secciones = seccionesSinVerificar.filter((seccion) => seccion.sigla === string_sigla);
+  const secciones = seccionesSinVerificar.filter((seccion) => seccion.sigla === stringSigla);
 
   // Si no hay resultados, retorna un objeto Sigla por defecto.
-  if (secciones.length === 0) return new Sigla(string_sigla, 'SIN RESULTADOS', [], 0);
+  if (secciones.length === 0) return new Sigla(stringSigla, 'SIN RESULTADOS', [], 0);
 
   // Obtiene información de la sigla.
   const { sigla, nombre } = secciones[0];
@@ -55,28 +48,38 @@ const buscarSigla = async (periodo, string_sigla) => {
   return new Sigla(sigla, nombre, secciones);
 };
 
+/**
+ * Busca una lista de siglas en buscaCursos para el semestre indicado.
+ * @param periodo: semestre en el que se realiza la búsqueda.
+ * @param string_siglas: siglas de los cursos a buscar.
+ * @returns {Promise<Sigla[]>}
+ */
+const buscarSiglas = (periodo, stringSiglas) => Promise
+  .all(stringSiglas.map((stringSigla) => buscarSigla(periodo, stringSigla)));
+
 // Generar combinaciones de cursos desde un array con los cursos agrupados por sigla y horario.
 const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
   // Guarda una copia de las siglas a combinar.
   const siglas = [...siglasOriginales];
   // Obtiene la primera sigla.
-  let sigla = siglas.shift();
+  const primeraSigla = siglas.shift();
 
   // Crea las primeras combinaciones, que corresponden a los grupos de cada sigla.
   // Cada combinación es un arreglo.
-  let combinaciones = sigla.grupos.map((grupo) => [grupo]);
+  let combinaciones = primeraSigla.grupos.map((grupo) => [grupo]);
 
   // Repetir hasta que no haya más siglas que combinar.
   while (siglas.length !== 0) {
     const nuevasCombinaciones = [];
     // Obtiene la siguiente sigla a combinar.
-    sigla = siglas.shift();
+    const sigla = siglas.shift();
 
     // Comprueba que cada combinación sea compatible con cada grupo de la sigla.
     combinaciones.forEach((combinacion) => {
       // Repetir para cada grupo de la sigla
       sigla.grupos.forEach((grupo) => {
-        const compatibles = combinacion.every((grupo2) => cursos.Curso.horariosCompatibles(grupo, grupo2, choquesPermitidos));
+        const compatibles = combinacion.every((grupo2) => cursos.Curso
+          .horariosCompatibles(grupo, grupo2, choquesPermitidos));
 
         if (compatibles) {
           // Copia la combinación.
@@ -101,7 +104,7 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
  * @param nrc: nrc del curso
  * @returns {}
  */
-const obtenerCupos = async (periodo, nrc) => await cupos.obtenerCupos(periodo, nrc, URL_CUPOS);
+const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPOS);
 
 export {
   DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones, obtenerCupos,

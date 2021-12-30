@@ -23,8 +23,7 @@ import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
 import BuscarCursoCard from './components/Cards/BuscarCursoCard';
 import CombinacionesCard from './components/Cards/CombinacionesCard';
-import ChoquesCard from './components/Cards/ChoquesCard';
-import ErrorBoundary from './components/ErrorBoundary';
+// import ChoquesCard from './components/Cards/ChoquesCard';
 import ModalCupos from './components/ModalCupos';
 
 const periodo = '2022-1';
@@ -95,6 +94,7 @@ class App extends React.Component {
         value: sigla.sigla,
       });
     } catch (e) {
+      // TODO: mejorar logging de errores
       console.error(e);
     }
 
@@ -129,6 +129,7 @@ class App extends React.Component {
             value: sigla,
           });
         } catch (e) {
+          // TODO: mejorar logging de errores
           console.error(e);
         }
       }
@@ -143,29 +144,29 @@ class App extends React.Component {
     if (buscando) return;
 
     // Revisar cuáles son las siglas sin objeto Sigla.
-    const nuevasSiglas = [];
+    const nuevosStringsSiglas = [];
     stringSiglas.forEach((stringSigla) => {
       // Buscar si la sigla tiene ya un objeto Sigla.
       const sigla = siglas.find((s) => s.sigla === stringSigla);
-      if (!sigla) nuevasSiglas.push(stringSigla);
+      if (!sigla) nuevosStringsSiglas.push(stringSigla);
     });
 
     // Si es que hay siglas nuevas, obtenerlas desde en BuscaCursos.
-    if (nuevasSiglas.length > 0) {
+    if (nuevosStringsSiglas.length > 0) {
       // Levanta el flag de buscando para evitar búsquedas en simultáneo
       this.setState({ buscando: true, errorEnBusqueda: undefined });
 
       // Buscar las siglas en BuscaCursos
-      util.buscarSiglas(periodo, nuevasSiglas)
+      util.buscarSiglas(periodo, nuevosStringsSiglas)
         .then((nuevasSiglas) => {
           this.setState((prevState) => {
-            let { siglas } = prevState;
+            const { siglas: siglasAnteriores } = prevState;
             // Añade las Siglas encontrados al array.
-            siglas = siglas.concat(nuevasSiglas);
+            const siglasConcatenadas = siglasAnteriores.concat(nuevasSiglas);
 
             // Guarda las siglas, levanta el flag que indica que hubo cambios y
             // baja el flag de búsqueda.
-            return { siglas, cambios: true, buscando: false };
+            return { siglas: siglasConcatenadas, cambios: true, buscando: false };
           });
         })
         .catch((reason) => {
@@ -173,9 +174,10 @@ class App extends React.Component {
           // y muestra la razón del error.
           console.error(reason);
           this.setState((prevState) => {
-            const { stringSiglas } = prevState;
-            nuevasSiglas.forEach(
-              (stringSigla) => stringSiglas.splice(stringSiglas.indexOf(stringSigla), 1),
+            const { stringSiglas: stringSiglasAnterior } = prevState;
+            nuevosStringsSiglas.forEach(
+              (stringSigla) => stringSiglasAnterior
+                .splice(stringSiglasAnterior.indexOf(stringSigla), 1),
             );
 
             // Guarda las stringSiglas, baja el flag de búsqueda y guarda la razón del error.
