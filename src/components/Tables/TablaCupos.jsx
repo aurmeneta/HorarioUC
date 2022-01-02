@@ -10,7 +10,7 @@ function TablaCupos(props) {
       <table className="table table-sm">
         <thead>
           <tr>
-            <th className="pl-3">Escuela</th>
+            <th className="ps-3">Escuela</th>
             <th>Vacantes ofrecidas</th>
             <th>Vacantes ocupadas</th>
             <th>Vacantes libres</th>

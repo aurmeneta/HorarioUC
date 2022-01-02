@@ -25,6 +25,7 @@ import BuscarCursoCard from './components/Cards/BuscarCursoCard';
 import CombinacionesCard from './components/Cards/CombinacionesCard';
 // import ChoquesCard from './components/Cards/ChoquesCard';
 import ModalCupos from './components/ModalCupos';
+import Footer from './components/Footer';
 
 const periodo = '2022-1';
 const cookieName = 'siglas';
@@ -275,6 +276,7 @@ class App extends React.Component {
             />
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

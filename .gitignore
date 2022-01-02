@@ -2,3 +2,4 @@
 /.idea
 /dist
 .DS_Store
+stats.json

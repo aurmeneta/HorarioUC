@@ -35,6 +35,7 @@ module.exports = {
     }),
   ],
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
         vendor: {
