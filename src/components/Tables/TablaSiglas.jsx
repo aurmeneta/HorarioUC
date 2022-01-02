@@ -10,32 +10,34 @@ function TablaSiglas(props) {
   } = props;
 
   return (
-    <table className="table table-sm table-responsive-md">
-      <thead>
-        <tr>
-          <th>Sigla</th>
-          <th>Nombre</th>
-          <th>Secciones</th>
-          <th>Sección</th>
-          <th>Horarios</th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
+    <div className="table-responsive-md">
+      <table className="table table-sm">
+        <thead>
+          <tr>
+            <th>Sigla</th>
+            <th>Nombre</th>
+            <th>Secciones</th>
+            <th>Sección</th>
+            <th>Horarios</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        {
-          siglas.map((sigla) => (
-            <FilaTablaSiglas
-              key={sigla.sigla}
-              sigla={sigla}
-              borrarSigla={borrarSigla}
-              elegirSeccion={elegirSeccion}
-              seccionesSeleccionadas={seccionesSeleccionadas}
-            />
-          ))
-        }
-      </tbody>
-    </table>
+        <tbody>
+          {
+            siglas.map((sigla) => (
+              <FilaTablaSiglas
+                key={sigla.sigla}
+                sigla={sigla}
+                borrarSigla={borrarSigla}
+                elegirSeccion={elegirSeccion}
+                seccionesSeleccionadas={seccionesSeleccionadas}
+              />
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
   );
 }
 

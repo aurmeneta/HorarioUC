@@ -1,4 +1,4 @@
-import 'bootstrap/js/src/modal';
+import 'bootstrap/js/dist/modal';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -46,17 +46,17 @@ class ModalCupos extends React.Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>
-                <button className="close" data-dismiss="modal" type="button">
-                  <span>&times;</span>
+                <button className="btn-close" data-bs-dismiss="modal" type="button">
+                  <span />
                 </button>
               </div>
               <div className="modal-body text-center">
                 <div className="spinner-border">
-                  <span className="sr-only">Cargando...</span>
+                  <span className="visually-hidden">Cargando...</span>
                 </div>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
+                <button className="btn btn-secondary" data-bs-dismiss="modal" type="button">Cerrar</button>
               </div>
             </div>
           </div>
@@ -69,15 +69,15 @@ class ModalCupos extends React.Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{`${curso.sigla} - ${curso.nombre}`}</h5>
-              <button className="close" data-dismiss="modal" type="button">
-                <span>&times;</span>
+              <button className="btn-close" data-bs-dismiss="modal" type="button">
+                <span />
               </button>
             </div>
             <div className="modal-body p-0">
               <TablaCupos cupos={cupos} />
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
+              <button className="btn btn-secondary" data-bs-dismiss="modal" type="button">Cerrar</button>
             </div>
           </div>
         </div>

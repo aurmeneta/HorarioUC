@@ -7,23 +7,23 @@ table {
 }
 
 .CLAS {
-    background: #fbc575;
+    background: #fbc575 !important;
 }
 
 .LAB {
-    background: #b3d4f5;
+    background: #b3d4f5 !important;
 }
 
 .AYU {
-    background: #99cc99;
+    background: #99cc99 !important;
 }
 
 .TAL {
-    background: #c7c2f8;
+    background: #c7c2f8 !important;
 }
 
 #almuerzo {
-    background: #E7EAF6;
+    background: #E7EAF6 !important;
     letter-spacing: 30px;
     text-align: center;
 }

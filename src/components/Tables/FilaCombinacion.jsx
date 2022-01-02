@@ -25,13 +25,13 @@ function FilaCombinacion(props) {
           <button
             className="btn btn-link btn-sm"
             type="button"
-            data-toggle="modal"
+            data-bs-toggle="modal"
             onClick={() => guardarCursoCupos({
               nrc: primeraSeccion.nrc,
               sigla: `${primeraSeccion.sigla}-${primeraSeccion.seccion}`,
               nombre: primeraSeccion.nombre,
             })}
-            data-target="#modalCupos"
+            data-bs-target="#modalCupos"
           >
             Ver cupos
           </button>
@@ -49,10 +49,10 @@ function FilaCombinacion(props) {
             <td>
               <button
                 className="btn btn-link btn-sm"
-                data-toggle="modal"
+                data-bs-toggle="modal"
                 type="button"
                 onClick={() => guardarCursoCupos({ nrc, sigla: `${sigla}-${seccion}`, nombre })}
-                data-target="#modalCupos"
+                data-bs-target="#modalCupos"
               >
                 Ver cupos
               </button>
