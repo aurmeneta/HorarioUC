@@ -43,6 +43,9 @@ class App extends React.Component {
       siglasDefault = saved.split(',');
     }
 
+    const choquesPertidos = new ChoquesPermitidos();
+    choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
+
     this.state = {
       stringSiglas: siglasDefault,
       siglas: [],
@@ -51,7 +54,7 @@ class App extends React.Component {
       cambios: true,
       buscando: false,
       errorEnBusqueda: undefined,
-      choquesPermitidos: new ChoquesPermitidos(),
+      choquesPermitidos: choquesPertidos,
       cursoCupos: { nrc: '', sigla: '', nombre: '' },
     };
 
