@@ -66,7 +66,9 @@ class BuscarCursoForm extends React.Component {
           </div>
         </div>
 
-        <BotonAgregar onClick={this.onClick} buscando={buscando} />
+        <div className="mt-2">
+          <BotonAgregar onClick={this.onClick} buscando={buscando} />
+        </div>
       </form>
     );
   }

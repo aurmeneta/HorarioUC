@@ -23,7 +23,7 @@ function FilaHorario(props) {
                   {`${curso.sigla}-${curso.secciones.toString()}`}
                 </div>
               ))
-              : "-"
+              : '-'
 
           }
           </td>

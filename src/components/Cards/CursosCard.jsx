@@ -11,7 +11,7 @@ function CursosCard(props) {
     siglas, borrarSigla, combinaciones, elegirSeccion, seccionesSeleccionadas,
   } = props;
   return (
-    <div className="col-md">
+    <div className="col">
       <div className="card border-0">
         <div className="card-body">
           <ErrorBoundary>
