@@ -34,7 +34,8 @@
     "prop-types": "^15.8.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hot-loader": "^4.13.0"
+    "react-hot-loader": "^4.13.0",
+    "rollbar": "^2.24.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.7",
