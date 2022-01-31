@@ -1,10 +1,11 @@
 const path = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+require('dotenv').config();
 
 module.exports = {
   entry: './src/index.jsx',
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -33,7 +34,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
     }),
-    new EnvironmentPlugin(['npm_package_version']),
+    new EnvironmentPlugin({
+      npm_package_version: undefined,
+      NODE_ENV: 'development',
+      ROLLBAR_ACCESS_TOKEN: undefined,
+    }),
   ],
   optimization: {
     runtimeChunk: 'single',

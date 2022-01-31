@@ -14,10 +14,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import React from 'react';
 import { hot } from 'react-hot-loader';
+import { Provider } from '@rollbar/react';
 
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
 import Cookies from 'js-cookie';
 import * as util from './Util/util';
+import rollbarConfig from './Util/rollbar-config';
 
 import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
@@ -243,44 +245,46 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <Navbar />
-        <div className="container-fluid">
-          <ModalCupos
-            curso={cursoCupos}
-            periodo={periodo}
-          />
-          <div className="row">
-            <CursosCard
-              siglas={siglas}
-              combinaciones={combinaciones}
-              borrarSigla={this.borrarSigla}
-              seccionesSeleccionadas={seccionesSeleccionadas}
-              elegirSeccion={this.elegirSeccion}
+      <Provider config={rollbarConfig}>
+        <div>
+          <Navbar />
+          <div className="container-fluid">
+            <ModalCupos
+              curso={cursoCupos}
+              periodo={periodo}
             />
+            <div className="row">
+              <CursosCard
+                siglas={siglas}
+                combinaciones={combinaciones}
+                borrarSigla={this.borrarSigla}
+                seccionesSeleccionadas={seccionesSeleccionadas}
+                elegirSeccion={this.elegirSeccion}
+              />
 
-            <BuscarCursoCard
-              agregarSigla={this.agregarSigla}
-              buscando={buscando}
-              errorEnBusqueda={errorEnBusqueda}
-            />
+              <BuscarCursoCard
+                agregarSigla={this.agregarSigla}
+                buscando={buscando}
+                errorEnBusqueda={errorEnBusqueda}
+              />
+            </div>
+
+            {/*
+                      <div className="row">
+                          <ChoquesCard />
+                      </div>
+                      */}
+
+            <div className="row">
+              <CombinacionesCard
+                combinaciones={combinaciones}
+                guardarCursoCupos={this.guardarCursoCupos}
+              />
+            </div>
           </div>
-
-          {/*
-                    <div className="row">
-                        <ChoquesCard />
-                    </div>
-                    */}
-
-          <div className="row">
-            <CombinacionesCard
-              combinaciones={combinaciones}
-              guardarCursoCupos={this.guardarCursoCupos}
-            />
-          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Provider>
     );
   }
 }

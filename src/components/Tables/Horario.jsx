@@ -44,8 +44,6 @@ function Horario(props) {
     });
   });
 
-  console.log(modulos);
-
   return (
     <div className="col-lg table-responsive">
       <table className="table table-bordered table-sm text-center" id="horario">
