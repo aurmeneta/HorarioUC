@@ -10,13 +10,7 @@ function Footer() {
           <a href="https://github.com/aurmeneta/HorarioUC">GitHub</a>
         </span>
         <br />
-        <span className="w-100 navbar-text">
-          <span className="badge bg-info">NUEVO</span>
-          {' '}
-          Prueba generar combinaciones con choques de ayudantías
-          {' '}
-          <a href="https://staging.horariouc.cl">acá.</a>
-        </span>
+        <span className="w-100 navbar-text">{`v${process.env.npm_package_version}`}</span>
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
 const path = require('path');
-// const webpack = require('webpack');
+const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -33,6 +33,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
     }),
+    new EnvironmentPlugin(['npm_package_version']),
   ],
   optimization: {
     runtimeChunk: 'single',
