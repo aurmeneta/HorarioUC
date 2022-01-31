@@ -27,6 +27,10 @@
     "url": "https://github.com/aurmeneta/HorarioUC/issues"
   },
   "homepage": "http://aurmeneta.github.io/HorarioUC",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "dependencies": {
     "@aurmeneta/buscacursos-uc": "^2.0.1",
     "@babel/runtime": "^7.16.7",
