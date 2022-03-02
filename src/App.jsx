@@ -49,7 +49,7 @@ class App extends React.Component {
     }
 
     const choquesPertidos = new ChoquesPermitidos();
-    choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
+    // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
 
     this.state = {
       stringSiglas: siglasDefault,
