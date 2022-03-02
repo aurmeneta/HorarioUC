@@ -24,6 +24,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build
+        env:
+          ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run build
