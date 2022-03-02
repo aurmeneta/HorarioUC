@@ -1,11 +1,11 @@
 const path = require('path');
-// const webpack = require('webpack');
+const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+require('dotenv').config();
 
 module.exports = {
   entry: './src/index.jsx',
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -34,11 +34,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
     }),
-    new CopyPlugin({
-      patterns: [
-        { from: 'static', to: '.' }
-      ]
-    })
+    new EnvironmentPlugin({
+      npm_package_version: undefined,
+      NODE_ENV: 'development',
+      ROLLBAR_ACCESS_TOKEN: undefined,
+    }),
   ],
   optimization: {
     runtimeChunk: 'single',

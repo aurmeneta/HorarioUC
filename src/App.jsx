@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2020, Andrés Urmeneta B. <aurmeneta@uc.cl>
+Copyright (c) 2021, Andrés Urmeneta B. <aurmeneta@uc.cl>
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies.
@@ -14,10 +14,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import React from 'react';
 import { hot } from 'react-hot-loader';
+import { Provider } from '@rollbar/react';
+import Rollbar from 'rollbar';
 
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
 import Cookies from 'js-cookie';
 import * as util from './Util/util';
+import rollbarConfig from './Util/rollbar-config';
 
 import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
@@ -26,6 +29,8 @@ import CombinacionesCard from './components/Cards/CombinacionesCard';
 // import ChoquesCard from './components/Cards/ChoquesCard';
 import ModalCupos from './components/ModalCupos';
 import Footer from './components/Footer';
+
+const rollbar = new Rollbar(rollbarConfig);
 
 const periodo = '2022-1';
 const cookieName = 'siglas';
@@ -43,6 +48,8 @@ class App extends React.Component {
       siglasDefault = saved.split(',');
     }
 
+    const choquesPertidos = new ChoquesPermitidos();
+    // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
     this.state = {
       stringSiglas: siglasDefault,
       siglas: [],
@@ -95,8 +102,7 @@ class App extends React.Component {
         value: sigla.sigla,
       });
     } catch (e) {
-      // TODO: mejorar logging de errores
-      console.error(e);
+      rollbar.warn(`Error al publicar analytics ${e.toString()}`);
     }
 
     // Eliminar la Sigla del array de siglas y strings de siglas.
@@ -130,8 +136,7 @@ class App extends React.Component {
             value: sigla,
           });
         } catch (e) {
-          // TODO: mejorar logging de errores
-          console.error(e);
+          rollbar.warn(`Error al publicar analytics ${e.toString()}`);
         }
       }
       return { stringSiglas, cambios: true };
@@ -173,7 +178,7 @@ class App extends React.Component {
         .catch((reason) => {
           // Si ocurre un error, elimina las siglas buscadas del array para evitar recurciones
           // y muestra la razón del error.
-          console.error(reason);
+          rollbar.error(`Error al buscar nievas siglas; ${reason}`);
           this.setState((prevState) => {
             const { stringSiglas: stringSiglasAnterior } = prevState;
             nuevosStringsSiglas.forEach(
@@ -240,44 +245,46 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <Navbar />
-        <div className="container-fluid">
-          <ModalCupos
-            curso={cursoCupos}
-            periodo={periodo}
-          />
-          <div className="row">
-            <CursosCard
-              siglas={siglas}
-              combinaciones={combinaciones}
-              borrarSigla={this.borrarSigla}
-              seccionesSeleccionadas={seccionesSeleccionadas}
-              elegirSeccion={this.elegirSeccion}
+      <Provider instance={rollbar}>
+        <div>
+          <Navbar />
+          <div className="container-fluid">
+            <ModalCupos
+              curso={cursoCupos}
+              periodo={periodo}
             />
+            <div className="row">
+              <CursosCard
+                siglas={siglas}
+                combinaciones={combinaciones}
+                borrarSigla={this.borrarSigla}
+                seccionesSeleccionadas={seccionesSeleccionadas}
+                elegirSeccion={this.elegirSeccion}
+              />
 
-            <BuscarCursoCard
-              agregarSigla={this.agregarSigla}
-              buscando={buscando}
-              errorEnBusqueda={errorEnBusqueda}
-            />
+              <BuscarCursoCard
+                agregarSigla={this.agregarSigla}
+                buscando={buscando}
+                errorEnBusqueda={errorEnBusqueda}
+              />
+            </div>
+
+            {/*
+                      <div className="row">
+                          <ChoquesCard />
+                      </div>
+                      */}
+
+            <div className="row">
+              <CombinacionesCard
+                combinaciones={combinaciones}
+                guardarCursoCupos={this.guardarCursoCupos}
+              />
+            </div>
           </div>
-
-          {/*
-                    <div className="row">
-                        <ChoquesCard />
-                    </div>
-                    */}
-
-          <div className="row">
-            <CombinacionesCard
-              combinaciones={combinaciones}
-              guardarCursoCupos={this.guardarCursoCupos}
-            />
-          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Provider>
     );
   }
 }
