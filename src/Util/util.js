@@ -13,7 +13,7 @@ const NUMERO_MODULOS = 8;
 
 const HORA_MODULOS = [
   '08:30',
-  '10:30',
+  '10:00',
   '11:30',
   '14:00',
   '15:30',
