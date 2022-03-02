@@ -6,7 +6,6 @@ import { DIAS, HORA_MODULOS } from '../../Util/util';
 
 function FilaHorario(props) {
   const { index, dia } = props;
-
   return (
     <tr key={DIAS[index]}>
       <td key="99">{HORA_MODULOS[index]}</td>
@@ -45,12 +44,11 @@ FilaHorario.propTypes = {
   index: PropTypes.number.isRequired,
   dia: PropTypes
     .arrayOf(PropTypes
-      .arrayOf(PropTypes
-        .shape({
-          secciones: PropTypes.arrayOf(PropTypes.number),
-          sigla: PropTypes.string,
-          tipo: PropTypes.string,
-        }))).isRequired,
+      .shape({
+        secciones: PropTypes.arrayOf(PropTypes.number),
+        sigla: PropTypes.string,
+        tipo: PropTypes.string,
+      })).isRequired,
 };
 
 export { FilaHorario };
