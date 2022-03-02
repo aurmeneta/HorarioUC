@@ -48,7 +48,7 @@ class App extends React.Component {
       siglasDefault = saved.split(',');
     }
 
-    const choquesPertidos = new ChoquesPermitidos();
+    // const choquesPertidos = new ChoquesPermitidos();
     // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
     this.state = {
       stringSiglas: siglasDefault,

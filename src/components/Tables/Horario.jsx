@@ -19,12 +19,8 @@ function Horario(props) {
   for (let i = 0; i < NUMERO_MODULOS; i += 1) {
     const dias = [];
     for (let j = 0; j < DIAS.length; j += 1) {
-      // Añade un objeto vacío.
-      dias.push({
-        tipo: '',
-        secciones: [],
-        sigla: '',
-      });
+      // Añade un arreglo vacío.
+      dias.push([]);
     }
     modulos.push(dias);
   }
@@ -44,7 +40,7 @@ function Horario(props) {
       // Comprueba que el grupo tenga un horario valido.
       if (hora < 1 || hora > NUMERO_MODULOS || horario.dia === 'SIN HORARIO') return;
 
-      modulos[hora - 1][dia] = { sigla, tipo, secciones: numerosSecciones };
+      modulos[hora - 1][dia].push({ sigla, tipo, secciones: numerosSecciones });
     });
   });
 
