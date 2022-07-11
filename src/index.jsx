@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021, Andrés Urmeneta B. <aurmeneta@uc.cl>
+Copyright (c) 2022, Andrés Urmeneta B. <aurmeneta@uc.cl>
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies.
@@ -13,9 +13,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 import React from 'react';
-import ReactDom from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
+
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-ReactDom.render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

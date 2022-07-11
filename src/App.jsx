@@ -13,7 +13,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import { Provider } from '@rollbar/react';
 import Rollbar from 'rollbar';
 
@@ -289,4 +288,4 @@ class App extends React.Component {
   }
 }
 
-export default hot(module)(App);
+export default App;
