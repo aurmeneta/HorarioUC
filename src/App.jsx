@@ -17,9 +17,9 @@ import { Provider } from '@rollbar/react';
 import Rollbar from 'rollbar';
 
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
-import Cookies from 'js-cookie';
-import * as util from './Util/util';
-import rollbarConfig from './Util/rollbar-config';
+import * as util from './util/util';
+import * as storage from './util/storage';
+import rollbarConfig from './util/rollbar-config';
 
 import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
@@ -31,26 +31,15 @@ import Footer from './components/Footer';
 
 const rollbar = new Rollbar(rollbarConfig);
 
-const periodo = '2022-1';
-const cookieName = 'siglas';
-let siglasDefault = [
-  'ING2030',
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const saved = Cookies.get(cookieName);
-
-    if (saved) {
-      siglasDefault = saved.split(',');
-    }
-
     // const choquesPertidos = new ChoquesPermitidos();
     // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
     this.state = {
-      stringSiglas: siglasDefault,
+      stringSiglas: storage.siglasGuardadas(),
+      periodo: storage.periodoSeleccionado(),
       siglas: [],
       combinaciones: [],
       seccionesSeleccionadas: [],
@@ -86,8 +75,7 @@ class App extends React.Component {
 
   updateCookie() {
     const { stringSiglas } = this.state;
-    const val = stringSiglas.join(',');
-    Cookies.set(cookieName, val, { expires: 30 });
+    storage.guardarSiglas(stringSiglas);
   }
 
   borrarSigla(event, sigla) {
@@ -143,7 +131,9 @@ class App extends React.Component {
   }
 
   buscarSiglas() {
-    const { stringSiglas, siglas, buscando } = this.state;
+    const {
+      stringSiglas, siglas, buscando, periodo,
+    } = this.state;
 
     // Si ya se está realizando una búsqueda, retornar para evitar duplicaciones y recursiones.
     if (buscando) return;
@@ -240,7 +230,7 @@ class App extends React.Component {
 
   render() {
     const {
-      siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda, cursoCupos,
+      siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda, cursoCupos, periodo,
     } = this.state;
 
     return (

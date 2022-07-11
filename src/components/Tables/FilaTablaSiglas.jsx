@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Sigla from '../../Util/Sigla';
+import Sigla from '../../util/Sigla';
 
 function FilaTablaSiglas(props) {
   const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grupo from '../../Util/Grupo';
+import Grupo from '../../util/Grupo';
 
 function FilaCombinacion(props) {
   const { grupo, guardarCursoCupos } = props;

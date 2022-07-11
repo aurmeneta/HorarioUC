@@ -2,7 +2,7 @@ import 'bootstrap/js/dist/modal';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { obtenerCupos } from '../Util/util';
+import { obtenerCupos } from '../util/util';
 import TablaCupos from './Tables/TablaCupos';
 
 class ModalCupos extends React.Component {

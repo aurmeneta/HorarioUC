@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import TablaSiglas from '../Tables/TablaSiglas';
 import ErrorBoundary from '../ErrorBoundary';
-import Grupo from '../../Util/Grupo';
-import Sigla from '../../Util/Sigla';
+import Grupo from '../../util/Grupo';
+import Sigla from '../../util/Sigla';
 
 function CursosCard(props) {
   const {
