@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021, Andrés Urmeneta B. <aurmeneta@uc.cl>
+Copyright (c) 2022, Andrés Urmeneta B. <aurmeneta@uc.cl>
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies.
@@ -21,13 +21,11 @@ import * as util from './util/util';
 import * as storage from './util/storage';
 import rollbarConfig from './util/rollbar-config';
 
-import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
 import BuscarCursoCard from './components/Cards/BuscarCursoCard';
 import CombinacionesCard from './components/Cards/CombinacionesCard';
-// import ChoquesCard from './components/Cards/ChoquesCard';
 import ModalCupos from './components/ModalCupos';
-import Footer from './components/Footer';
+import Layout from './components/Layout';
 
 const rollbar = new Rollbar(rollbarConfig);
 
@@ -42,7 +40,7 @@ class App extends React.Component {
       periodo: storage.periodoSeleccionado(),
       siglas: [],
       combinaciones: [],
-      seccionesSeleccionadas: [],
+      seccionesSeleccionadas: {},
       cambios: true,
       buscando: false,
       errorEnBusqueda: undefined,
@@ -55,7 +53,7 @@ class App extends React.Component {
     this.generarCombinaciones = this.generarCombinaciones.bind(this);
     this.borrarSigla = this.borrarSigla.bind(this);
     this.elegirSeccion = this.elegirSeccion.bind(this);
-    this.updateCookie = this.updateCookie.bind(this);
+    this.actualizarStorage = this.actualizarStorage.bind(this);
     this.guardarCursoCupos = this.guardarCursoCupos.bind(this);
   }
 
@@ -66,14 +64,14 @@ class App extends React.Component {
   componentDidUpdate() {
     this.buscarSiglas();
     this.generarCombinaciones();
-    this.updateCookie();
+    this.actualizarStorage();
   }
 
   guardarCursoCupos(curso) {
     this.setState({ cursoCupos: curso });
   }
 
-  updateCookie() {
+  actualizarStorage() {
     const { stringSiglas } = this.state;
     storage.guardarSiglas(stringSiglas);
   }
@@ -167,7 +165,7 @@ class App extends React.Component {
         .catch((reason) => {
           // Si ocurre un error, elimina las siglas buscadas del array para evitar recurciones
           // y muestra la razón del error.
-          rollbar.error(`Error al buscar nievas siglas; ${reason}`);
+          rollbar.error(`Error al buscar nuevas siglas; ${reason}`);
           this.setState((prevState) => {
             const { stringSiglas: stringSiglasAnterior } = prevState;
             nuevosStringsSiglas.forEach(
@@ -192,12 +190,10 @@ class App extends React.Component {
 
     // Filtrar siglas según selecciones de sección del usuario.
     const siglasFiltradas = siglas.map((sigla) => {
-      const seccionSeleccionada = seccionesSeleccionadas.find(
-        (seccion) => seccion.sigla === sigla.sigla,
-      );
+      const seccionSeleccionada = seccionesSeleccionadas[sigla.sigla];
       const numerosSecciones = [];
 
-      if (seccionSeleccionada) numerosSecciones.push(seccionSeleccionada.seccion);
+      if (seccionSeleccionada) numerosSecciones.push(seccionSeleccionada);
       else numerosSecciones.push(0);
 
       return sigla.filtrarPorSecciones(numerosSecciones);
@@ -212,17 +208,11 @@ class App extends React.Component {
 
   elegirSeccion(event) {
     event.preventDefault();
-    const { name, value } = event.target;
+    const { name: sigla, value: seccion } = event.target;
 
     this.setState((prevState) => {
       const { seccionesSeleccionadas } = prevState;
-      const seccionSeleccionada = { sigla: name, seccion: parseInt(value, 10) };
-
-      const indexSeccionSeleccionada = seccionesSeleccionadas
-        .findIndex((seccion) => seccion.sigla === name);
-
-      if (indexSeccionSeleccionada === -1) seccionesSeleccionadas.push(seccionSeleccionada);
-      else seccionesSeleccionadas[indexSeccionSeleccionada] = seccionSeleccionada;
+      seccionesSeleccionadas[sigla] = parseInt(seccion, 10);
 
       return { seccionesSeleccionadas, cambios: true };
     });
@@ -234,14 +224,14 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <Provider instance={rollbar}>
-        <div>
-          <Navbar />
-          <div className="container-fluid">
+      <React.StrictMode>
+        <Provider instance={rollbar}>
+          <Layout>
             <ModalCupos
               curso={cursoCupos}
               periodo={periodo}
             />
+
             <div className="row">
               <CursosCard
                 siglas={siglas}
@@ -258,22 +248,15 @@ class App extends React.Component {
               />
             </div>
 
-            {/*
-                      <div className="row">
-                          <ChoquesCard />
-                      </div>
-                      */}
-
             <div className="row">
               <CombinacionesCard
                 combinaciones={combinaciones}
                 guardarCursoCupos={this.guardarCursoCupos}
               />
             </div>
-          </div>
-          <Footer />
-        </div>
-      </Provider>
+          </Layout>
+        </Provider>
+      </React.StrictMode>
     );
   }
 }

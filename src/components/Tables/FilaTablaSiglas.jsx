@@ -9,11 +9,7 @@ function FilaTablaSiglas(props) {
   } = props;
   const { sigla: stringSigla, grupos, secciones } = sigla;
 
-  const seccionSeleccionada = seccionesSeleccionadas
-    .find((seccion) => seccion.sigla === stringSigla);
-
-  let nSeccionSeleccionada = 0;
-  if (seccionSeleccionada) nSeccionSeleccionada = seccionSeleccionada.seccion;
+  const nSeccionSeleccionada = seccionesSeleccionadas[stringSigla] || 0;
 
   return (
     <tr>
@@ -24,8 +20,8 @@ function FilaTablaSiglas(props) {
         <select className="form-control-sm w-75" name={stringSigla} value={nSeccionSeleccionada} onChange={elegirSeccion}>
           <option value={0}>Todas</option>
           {
-                        secciones.map(({ seccion, profesor }) => <option key={seccion} value={seccion}>{`${seccion} - ${profesor.join(', ')}`}</option>)
-                    }
+            secciones.map(({ seccion, profesor }) => <option key={seccion} value={seccion}>{`${seccion} - ${profesor.join(', ')}`}</option>)
+          }
         </select>
       </td>
       <td>{grupos.length}</td>
@@ -46,12 +42,7 @@ FilaTablaSiglas.propTypes = {
   sigla: PropTypes.instanceOf(Sigla).isRequired,
   borrarSigla: PropTypes.func.isRequired,
   elegirSeccion: PropTypes.func.isRequired,
-  seccionesSeleccionadas: PropTypes
-    .arrayOf(PropTypes
-      .shape({
-        seccion: PropTypes.number,
-        sigla: PropTypes.string,
-      })).isRequired,
+  seccionesSeleccionadas: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default FilaTablaSiglas;

@@ -45,12 +45,7 @@ TablaSiglas.propTypes = {
   siglas: PropTypes.arrayOf(PropTypes.instanceOf(Sigla)).isRequired,
   borrarSigla: PropTypes.func.isRequired,
   elegirSeccion: PropTypes.func.isRequired,
-  seccionesSeleccionadas: PropTypes
-    .arrayOf(PropTypes
-      .shape({
-        seccion: PropTypes.number,
-        sigla: PropTypes.string,
-      })).isRequired,
+  seccionesSeleccionadas: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default TablaSiglas;
