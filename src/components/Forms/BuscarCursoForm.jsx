@@ -1,82 +1,87 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import BotonAgregar from './BotonAgregar';
 
-class BuscarCursoForm extends React.Component {
-  constructor(props) {
-    super(props);
+import { actualizarPeriodosDisponibles, periodosDisponibles, periodoSeleccionado } from '../../util/storage';
 
-    this.state = {
-      sigla: '',
-    };
+function BuscarCursoForm({
+  periodo, buscando, agregarSigla, elegirPeriodo,
+}) {
+  const [sigla, setSigla] = useState('');
+  const [periodos, setPeriodos] = useState(periodosDisponibles());
 
-    this.onWrite = this.onWrite.bind(this);
-    this.onClick = this.onClick.bind(this);
-  }
+  useEffect(() => {
+    actualizarPeriodosDisponibles().then(() => setPeriodos(periodosDisponibles()));
+  }, []);
 
-  onWrite(event) {
+  function onWrite(event) {
     event.preventDefault();
 
-    this.setState({
-      [event.target.name]: event.target.value.toUpperCase(),
-    });
+    setSigla(event.target.value.toUpperCase());
   }
 
-  onClick(event) {
+  const onChange = (event) => {
     event.preventDefault();
 
-    const { sigla } = this.state;
-    const { agregarSigla } = this.props;
+    elegirPeriodo(event.target.value);
+  };
 
-    if (!sigla) return;
+  const onClick = (event) => {
+    event.preventDefault();
 
-    agregarSigla(sigla);
-  }
+    if (sigla) agregarSigla(sigla);
+  };
 
-  render() {
-    const { buscando } = this.props;
-    const { sigla } = this.state;
-
-    return (
-      <form>
-        <div className="form-group row">
-          <label htmlFor="#periodoInput" className="col-md-5 col-sm-3 col-form-label">Semestre</label>
-          <div className="col-md-8 col-sm-9">
-            <input id="periodoInput" type="text" readOnly className="form-control-plaintext" value="2022-1" />
-          </div>
+  return (
+    <form>
+      <div className="form-group row">
+        <label htmlFor="#periodoInput" className="col-md-5 col-sm-3 col-form-label">Semestre</label>
+        <div className="col-md-8 col-sm-9 mb-2">
+          <select id="periodoInput" className="form-select" value={periodo} onChange={onChange}>
+            {
+                periodos.map((p) => <option key={p} value={p}>{p}</option>)
+              }
+          </select>
         </div>
+      </div>
 
-        <div className="alert alert-warning col-md-8 col-sm-9">
-          Busca solo la sigla del curso, la sección o el profesor lo podrás elegir después.
-        </div>
+      <div className="alert alert-warning col-md-8 col-sm-9">
+        Busca solo la sigla del curso, la sección o el profesor lo podrás elegir después.
+      </div>
 
-        <div className="form-group row">
-          <label className="col-md-5 col-sm-3 col-form-label">Sigla</label>
-          <div className="col-md-8 col-sm-9">
-            <input
-              type="text"
-              name="sigla"
-              className="form-control"
-              placeholder="MAT1620"
-              value={sigla}
-              onChange={this.onWrite}
-            />
-          </div>
+      <div className="form-group row">
+        <label className="col-md-5 col-sm-3 col-form-label">Sigla</label>
+        <div className="col-md-8 col-sm-9">
+          <input
+            type="text"
+            name="sigla"
+            className="form-control"
+            placeholder="MAT1620"
+            value={sigla}
+            onChange={onWrite}
+          />
         </div>
+      </div>
 
-        <div className="mt-2">
-          <BotonAgregar onClick={this.onClick} buscando={buscando} />
-        </div>
-      </form>
-    );
-  }
+      <div className="mt-2">
+        <BotonAgregar onClick={onClick} buscando={buscando} />
+      </div>
+    </form>
+
+  );
 }
 
 BuscarCursoForm.propTypes = {
   buscando: PropTypes.bool.isRequired,
   agregarSigla: PropTypes.func.isRequired,
+  periodo: PropTypes.string,
+  elegirPeriodo: PropTypes.func,
+};
+
+BuscarCursoForm.defaultProps = {
+  periodo: periodoSeleccionado(),
+  elegirPeriodo: () => null,
 };
 
 export default BuscarCursoForm;

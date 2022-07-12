@@ -55,6 +55,7 @@ class App extends React.Component {
     this.elegirSeccion = this.elegirSeccion.bind(this);
     this.actualizarStorage = this.actualizarStorage.bind(this);
     this.guardarCursoCupos = this.guardarCursoCupos.bind(this);
+    this.elegirPeriodo = this.elegirPeriodo.bind(this);
   }
 
   componentDidMount() {
@@ -180,6 +181,15 @@ class App extends React.Component {
     }
   }
 
+  elegirPeriodo(periodo) {
+    this.setState({
+      periodo,
+      siglas: [],
+      seccionesSeleccionadas: {},
+      cambios: true,
+    });
+  }
+
   generarCombinaciones() {
     const {
       siglas, seccionesSeleccionadas, cambios, buscando, choquesPermitidos,
@@ -245,6 +255,8 @@ class App extends React.Component {
                 agregarSigla={this.agregarSigla}
                 buscando={buscando}
                 errorEnBusqueda={errorEnBusqueda}
+                periodo={periodo}
+                elegirPeriodo={this.elegirPeriodo}
               />
             </div>
 
