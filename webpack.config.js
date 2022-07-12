@@ -1,18 +1,30 @@
 const path = require('path');
+
 const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 require('dotenv').config();
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: './src/index.jsx',
-  mode: 'production',
+  mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: { presets: ['@babel/env'] },
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              presets: ['@babel/env'],
+              plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -39,7 +51,8 @@ module.exports = {
       NODE_ENV: 'development',
       ROLLBAR_ACCESS_TOKEN: undefined,
     }),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
   optimization: {
     runtimeChunk: 'single',
     splitChunks: {

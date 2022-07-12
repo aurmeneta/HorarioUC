@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FilaCombinacion from './FilaCombinacion';
-import Grupo from '../../Util/Grupo';
+import Grupo from '../../util/Grupo';
 
 function TablaCombinacion(props) {
   const { combinacion, guardarCursoCupos } = props;

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021, Andrés Urmeneta B. <aurmeneta@uc.cl>
+Copyright (c) 2022, Andrés Urmeneta B. <aurmeneta@uc.cl>
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies.
@@ -13,48 +13,34 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import { Provider } from '@rollbar/react';
 import Rollbar from 'rollbar';
 
 import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
-import Cookies from 'js-cookie';
-import * as util from './Util/util';
-import rollbarConfig from './Util/rollbar-config';
+import * as util from './util/util';
+import * as storage from './util/storage';
+import rollbarConfig from './util/rollbar-config';
 
-import Navbar from './components/Navbar';
 import CursosCard from './components/Cards/CursosCard';
 import BuscarCursoCard from './components/Cards/BuscarCursoCard';
 import CombinacionesCard from './components/Cards/CombinacionesCard';
-// import ChoquesCard from './components/Cards/ChoquesCard';
 import ModalCupos from './components/ModalCupos';
-import Footer from './components/Footer';
+import Layout from './components/Layout';
 
 const rollbar = new Rollbar(rollbarConfig);
-
-const periodo = '2022-1';
-const cookieName = 'siglas';
-let siglasDefault = [
-  'ING2030',
-];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const saved = Cookies.get(cookieName);
-
-    if (saved) {
-      siglasDefault = saved.split(',');
-    }
-
     // const choquesPertidos = new ChoquesPermitidos();
     // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
     this.state = {
-      stringSiglas: siglasDefault,
+      stringSiglas: storage.siglasGuardadas(),
+      periodo: storage.periodoSeleccionado(),
       siglas: [],
       combinaciones: [],
-      seccionesSeleccionadas: [],
+      seccionesSeleccionadas: {},
       cambios: true,
       buscando: false,
       errorEnBusqueda: undefined,
@@ -67,8 +53,9 @@ class App extends React.Component {
     this.generarCombinaciones = this.generarCombinaciones.bind(this);
     this.borrarSigla = this.borrarSigla.bind(this);
     this.elegirSeccion = this.elegirSeccion.bind(this);
-    this.updateCookie = this.updateCookie.bind(this);
+    this.actualizarStorage = this.actualizarStorage.bind(this);
     this.guardarCursoCupos = this.guardarCursoCupos.bind(this);
+    this.elegirPeriodo = this.elegirPeriodo.bind(this);
   }
 
   componentDidMount() {
@@ -78,17 +65,16 @@ class App extends React.Component {
   componentDidUpdate() {
     this.buscarSiglas();
     this.generarCombinaciones();
-    this.updateCookie();
+    this.actualizarStorage();
   }
 
   guardarCursoCupos(curso) {
     this.setState({ cursoCupos: curso });
   }
 
-  updateCookie() {
+  actualizarStorage() {
     const { stringSiglas } = this.state;
-    const val = stringSiglas.join(',');
-    Cookies.set(cookieName, val, { expires: 30 });
+    storage.guardarSiglas(stringSiglas);
   }
 
   borrarSigla(event, sigla) {
@@ -144,7 +130,9 @@ class App extends React.Component {
   }
 
   buscarSiglas() {
-    const { stringSiglas, siglas, buscando } = this.state;
+    const {
+      stringSiglas, siglas, buscando, periodo,
+    } = this.state;
 
     // Si ya se está realizando una búsqueda, retornar para evitar duplicaciones y recursiones.
     if (buscando) return;
@@ -178,7 +166,7 @@ class App extends React.Component {
         .catch((reason) => {
           // Si ocurre un error, elimina las siglas buscadas del array para evitar recurciones
           // y muestra la razón del error.
-          rollbar.error(`Error al buscar nievas siglas; ${reason}`);
+          rollbar.error(`Error al buscar nuevas siglas; ${reason}`);
           this.setState((prevState) => {
             const { stringSiglas: stringSiglasAnterior } = prevState;
             nuevosStringsSiglas.forEach(
@@ -193,6 +181,15 @@ class App extends React.Component {
     }
   }
 
+  elegirPeriodo(periodo) {
+    this.setState({
+      periodo,
+      siglas: [],
+      seccionesSeleccionadas: {},
+      cambios: true,
+    });
+  }
+
   generarCombinaciones() {
     const {
       siglas, seccionesSeleccionadas, cambios, buscando, choquesPermitidos,
@@ -203,12 +200,10 @@ class App extends React.Component {
 
     // Filtrar siglas según selecciones de sección del usuario.
     const siglasFiltradas = siglas.map((sigla) => {
-      const seccionSeleccionada = seccionesSeleccionadas.find(
-        (seccion) => seccion.sigla === sigla.sigla,
-      );
+      const seccionSeleccionada = seccionesSeleccionadas[sigla.sigla];
       const numerosSecciones = [];
 
-      if (seccionSeleccionada) numerosSecciones.push(seccionSeleccionada.seccion);
+      if (seccionSeleccionada) numerosSecciones.push(seccionSeleccionada);
       else numerosSecciones.push(0);
 
       return sigla.filtrarPorSecciones(numerosSecciones);
@@ -223,17 +218,11 @@ class App extends React.Component {
 
   elegirSeccion(event) {
     event.preventDefault();
-    const { name, value } = event.target;
+    const { name: sigla, value: seccion } = event.target;
 
     this.setState((prevState) => {
       const { seccionesSeleccionadas } = prevState;
-      const seccionSeleccionada = { sigla: name, seccion: parseInt(value, 10) };
-
-      const indexSeccionSeleccionada = seccionesSeleccionadas
-        .findIndex((seccion) => seccion.sigla === name);
-
-      if (indexSeccionSeleccionada === -1) seccionesSeleccionadas.push(seccionSeleccionada);
-      else seccionesSeleccionadas[indexSeccionSeleccionada] = seccionSeleccionada;
+      seccionesSeleccionadas[sigla] = parseInt(seccion, 10);
 
       return { seccionesSeleccionadas, cambios: true };
     });
@@ -241,18 +230,18 @@ class App extends React.Component {
 
   render() {
     const {
-      siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda, cursoCupos,
+      siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda, cursoCupos, periodo,
     } = this.state;
 
     return (
-      <Provider instance={rollbar}>
-        <div>
-          <Navbar />
-          <div className="container-fluid">
+      <React.StrictMode>
+        <Provider instance={rollbar}>
+          <Layout>
             <ModalCupos
               curso={cursoCupos}
               periodo={periodo}
             />
+
             <div className="row">
               <CursosCard
                 siglas={siglas}
@@ -266,14 +255,10 @@ class App extends React.Component {
                 agregarSigla={this.agregarSigla}
                 buscando={buscando}
                 errorEnBusqueda={errorEnBusqueda}
+                periodo={periodo}
+                elegirPeriodo={this.elegirPeriodo}
               />
             </div>
-
-            {/*
-                      <div className="row">
-                          <ChoquesCard />
-                      </div>
-                      */}
 
             <div className="row">
               <CombinacionesCard
@@ -281,12 +266,11 @@ class App extends React.Component {
                 guardarCursoCupos={this.guardarCursoCupos}
               />
             </div>
-          </div>
-          <Footer />
-        </div>
-      </Provider>
+          </Layout>
+        </Provider>
+      </React.StrictMode>
     );
   }
 }
 
-export default hot(module)(App);
+export default App;

@@ -2,9 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DIAS, NUMERO_MODULOS } from '../../Util/util';
+import { DIAS, NUMERO_MODULOS } from '../../util/util';
 import { FilaHorario, FilaAlmuerzo } from './FilasHorario';
-import Grupo from '../../Util/Grupo';
+import Grupo from '../../util/Grupo';
 
 function Horario(props) {
   const { combinacion } = props;

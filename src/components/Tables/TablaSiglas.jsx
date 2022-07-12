@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FilaTablaSiglas from './FilaTablaSiglas';
-import Sigla from '../../Util/Sigla';
+import Sigla from '../../util/Sigla';
 
 function TablaSiglas(props) {
   const {
@@ -45,12 +45,7 @@ TablaSiglas.propTypes = {
   siglas: PropTypes.arrayOf(PropTypes.instanceOf(Sigla)).isRequired,
   borrarSigla: PropTypes.func.isRequired,
   elegirSeccion: PropTypes.func.isRequired,
-  seccionesSeleccionadas: PropTypes
-    .arrayOf(PropTypes
-      .shape({
-        seccion: PropTypes.number,
-        sigla: PropTypes.string,
-      })).isRequired,
+  seccionesSeleccionadas: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default TablaSiglas;

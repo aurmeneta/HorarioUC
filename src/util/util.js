@@ -107,5 +107,6 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
 const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPOS);
 
 export {
-  DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones, obtenerCupos,
+  DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones,
+  obtenerCupos, URL_BUSCACURSOS, URL_CUPOS,
 };

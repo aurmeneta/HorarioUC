@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Horario from '../Tables/Horario';
 import TablaCombinacion from '../Tables/TablaCombinacion';
 import ErrorBoundary from '../ErrorBoundary';
-import Grupo from '../../Util/Grupo';
+import Grupo from '../../util/Grupo';
 
 class CombinacionesCard extends React.Component {
   constructor(props) {
