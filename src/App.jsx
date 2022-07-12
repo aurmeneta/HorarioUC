@@ -182,6 +182,7 @@ class App extends React.Component {
   }
 
   elegirPeriodo(periodo) {
+    storage.guardarPeriodoSeleccionado(periodo);
     this.setState({
       periodo,
       siglas: [],
