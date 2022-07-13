@@ -1,4 +1,6 @@
-body, th, td {
+body,
+th,
+td {
     font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
@@ -30,4 +32,12 @@ table {
 
 #horario {
     table-layout: fixed;
+    height: 1px;
+}
+
+.modulo-cell {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

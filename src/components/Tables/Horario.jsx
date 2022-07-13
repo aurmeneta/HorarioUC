@@ -46,7 +46,7 @@ function Horario(props) {
 
   return (
     <div className="col-lg table-responsive">
-      <table className="table table-bordered table-sm text-center" id="horario">
+      <table className="table table-bordered table-sm text-center table-hover" id="horario" style={{ '--bs-border-opacity': 0.5 }}>
         <thead>
           <tr>
             <th>Módulo</th>
@@ -55,6 +55,7 @@ function Horario(props) {
             <th>W</th>
             <th>J</th>
             <th>V</th>
+            <th>S</th>
           </tr>
         </thead>
 

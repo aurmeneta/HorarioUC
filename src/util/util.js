@@ -7,7 +7,8 @@ const DIAS = [
   'M',
   'W',
   'J',
-  'V'];
+  'V',
+  'S'];
 
 const NUMERO_MODULOS = 8;
 
