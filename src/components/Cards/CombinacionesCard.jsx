@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { cargarChoques } from '../../util/storage';
+
 import Horario from '../Tables/Horario';
 import TablaCombinacion from '../Tables/TablaCombinacion';
 import ErrorBoundary from '../ErrorBoundary';
 import Grupo from '../../util/Grupo';
+
+const choques = cargarChoques().filter((choque) => choque.valido());
 
 class CombinacionesCard extends React.Component {
   constructor(props) {
@@ -77,6 +81,19 @@ class CombinacionesCard extends React.Component {
                 <button className="btn btn-secondary" onClick={this.anterior} type="button">Anterior</button>
                 <button className="btn btn-secondary" onClick={this.siguiente} type="button">Siguiente</button>
               </div>
+
+              {
+                choques.length > 0 ? (
+                  <div className="alert alert-warning">
+                    Se permiten los siguientes choques:
+                    <ul>
+                      {
+                        choques.map((choque) => (<li>{choque.toRepr()}</li>))
+                      }
+                    </ul>
+                  </div>
+                ) : null
+              }
 
               {
               combinaciones.length === 0 ? <p>No hay combinaciones</p>

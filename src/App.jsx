@@ -16,7 +16,6 @@ import React from 'react';
 import { Provider } from '@rollbar/react';
 import Rollbar from 'rollbar';
 
-import { ChoquesPermitidos } from '@aurmeneta/buscacursos-uc';
 import * as util from './util/util';
 import * as storage from './util/storage';
 import rollbarConfig from './util/rollbar-config';
@@ -29,12 +28,12 @@ import Layout from './components/Layout';
 
 const rollbar = new Rollbar(rollbarConfig);
 
+const choquesPermitidos = storage.cargarChoquesPermitidos();
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    // const choquesPertidos = new ChoquesPermitidos();
-    // choquesPertidos.anadirChoque('*', 'AYU', '*', '*', true);
     this.state = {
       stringSiglas: storage.siglasGuardadas(),
       periodo: storage.periodoSeleccionado(),
@@ -44,7 +43,6 @@ class App extends React.Component {
       cambios: true,
       buscando: false,
       errorEnBusqueda: undefined,
-      choquesPermitidos: new ChoquesPermitidos(),
       cursoCupos: { nrc: '', sigla: '', nombre: '' },
     };
 
@@ -182,6 +180,7 @@ class App extends React.Component {
   }
 
   elegirPeriodo(periodo) {
+    storage.guardarPeriodoSeleccionado(periodo);
     this.setState({
       periodo,
       siglas: [],
@@ -192,7 +191,7 @@ class App extends React.Component {
 
   generarCombinaciones() {
     const {
-      siglas, seccionesSeleccionadas, cambios, buscando, choquesPermitidos,
+      siglas, seccionesSeleccionadas, cambios, buscando,
     } = this.state;
 
     // Si no hay cambios, hay una búsqueda en curso o no hay siglas, no generar las combinaciones.
@@ -241,6 +240,15 @@ class App extends React.Component {
               curso={cursoCupos}
               periodo={periodo}
             />
+
+            <div className="alert alert-info">
+              <b>Nuevo 2022-2:</b>
+              {' '}
+              ahora se permite configurar choques de módulos. ¡Revisa
+              {' '}
+              <a href="/choques.html">acá</a>
+              !
+            </div>
 
             <div className="row">
               <CursosCard

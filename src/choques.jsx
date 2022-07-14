@@ -12,14 +12,13 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-class Grupo {
-  constructor(sigla, nombre, secciones, horario) {
-    this.sigla = sigla;
-    this.horario = horario;
-    this.nombre = nombre;
-    this.secciones = secciones;
-    this.n_secciones = secciones.length;
-  }
-}
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import ChoquesApp from './ChoquesApp';
 
-export default Grupo;
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.css';
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<ChoquesApp />);
