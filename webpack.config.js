@@ -9,7 +9,10 @@ require('dotenv').config();
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: {
+    main: './src/index.jsx',
+    choques: './src/choques.jsx',
+  },
   mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
@@ -45,6 +48,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
+      chunks: ['main', 'runtime', 'vendors'],
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      filename: 'choques.html',
+      chunks: ['choques', 'runtime', 'vendors'],
     }),
     new EnvironmentPlugin({
       npm_package_version: undefined,

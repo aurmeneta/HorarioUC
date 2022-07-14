@@ -41,3 +41,9 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+html,
+body,
+#root {
+    height: 100%;
+}

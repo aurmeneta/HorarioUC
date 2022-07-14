@@ -1,4 +1,5 @@
 import { cursos } from '@aurmeneta/buscacursos-uc';
+import Choque from './Choque';
 import { URL_BUSCACURSOS } from './util';
 
 const storage = window.localStorage;
@@ -39,7 +40,22 @@ function guardarSiglas(siglas) {
   storage.setItem('siglas_guardadas', siglas.toString());
 }
 
+function guardarChoques(choques) {
+  storage.setItem('choques', choques.toString());
+}
+
+function cargarChoques() {
+  const choques = storage.getItem('choques');
+
+  if (choques) {
+    return choques.split(',').map((choque) => Choque.fromString(choque));
+  }
+
+  return [];
+}
+
 export {
   periodosDisponibles, actualizarPeriodosDisponibles, periodoSeleccionado,
   guardarPeriodoSeleccionado, siglasGuardadas, guardarSiglas,
+  guardarChoques, cargarChoques,
 };

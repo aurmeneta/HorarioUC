@@ -8,7 +8,7 @@ function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <div className="container-fluid">
+      <div className="container-fluid pt-2">
         {children}
       </div>
       <Footer />
@@ -17,7 +17,10 @@ function Layout({ children }) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.oneOfType(
+    [PropTypes.arrayOf(PropTypes.element),
+      PropTypes.element],
+  ).isRequired,
 };
 
 export default Layout;
