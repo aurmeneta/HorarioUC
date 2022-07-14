@@ -28,6 +28,25 @@ function ChoquesApp() {
     <React.StrictMode>
       <Provider instance={rollbar}>
         <Layout>
+          <div className="alert alert-info">
+            <strong>Intrucciones para permitir el choque de módulos</strong>
+            <ol>
+              <li>Agrega los cursos desde la página de inicio.</li>
+              <li>Agrega una nueva regla.</li>
+              <li>Selecciona las siglas y tipos de módulos correspondientes.</li>
+              <li>
+                Los cambios se guardan automáticamente, vuelve a la página de inicio y
+                las combinaciones se generarán considerando las reglas configuradas.
+              </li>
+            </ol>
+            Por defecto los choques no se permiten, por lo que cualquier choque no
+            explícitamente habilitado en las reglas no se permitirá.
+            {' '}
+            <br />
+            Esta función es nueva y no está completamente probada.
+            Puede ser que algunas combinaciones sean omitidas.
+          </div>
+
           <ChoquesTable />
         </Layout>
       </Provider>

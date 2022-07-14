@@ -29,7 +29,7 @@ function ChoquesTable() {
     event.preventDefault();
 
     if (choques.length === 0 || !choques.at(-1).vacio()) {
-      const nuevoChoque = new Choque('', '', '', '', false);
+      const nuevoChoque = new Choque('', '', '', '', true);
       setChoques([...choques, nuevoChoque]);
     }
   };
@@ -48,7 +48,7 @@ function ChoquesTable() {
 
   return (
     <>
-      <h3>Reglas de Choques</h3>
+      <h5>Reglas de Choques</h5>
       <table className="table">
         <thead>
           <tr>

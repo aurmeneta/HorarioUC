@@ -8,7 +8,7 @@ import TablaCombinacion from '../Tables/TablaCombinacion';
 import ErrorBoundary from '../ErrorBoundary';
 import Grupo from '../../util/Grupo';
 
-const choques = cargarChoques();
+const choques = cargarChoques().filter((choque) => choque.valido());
 
 class CombinacionesCard extends React.Component {
   constructor(props) {
