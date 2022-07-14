@@ -14,14 +14,19 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import { Provider } from '@rollbar/react';
 import React from 'react';
+import Rollbar from 'rollbar';
+
+import rollbarConfig from './util/rollbar-config';
 
 import ChoquesTable from './components/Tables/ChoquesTable';
 import Layout from './components/Layout';
 
+const rollbar = new Rollbar(rollbarConfig);
+
 function ChoquesApp() {
   return (
     <React.StrictMode>
-      <Provider>
+      <Provider instance={rollbar}>
         <Layout>
           <ChoquesTable />
         </Layout>

@@ -19,6 +19,10 @@ class Choque {
     const [sigla1, tipo1, sigla2, tipo2, permitido] = str.split('-');
     return new Choque(sigla1, tipo1, sigla2, tipo2, permitido === 'true');
   }
+
+  toRepr() {
+    return `${this.sigla1}-${this.tipo1 === '*' ? 'Cualquiera' : this.tipo1} con ${this.sigla2}-${this.tipo2 === '*' ? 'Cualquiera' : this.tipo2}`;
+  }
 }
 
 export default Choque;

@@ -47,11 +47,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: 'src/assets/template.ejs',
       chunks: ['main', 'runtime', 'vendors'],
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: 'src/assets/template.ejs',
       filename: 'choques.html',
       chunks: ['choques', 'runtime', 'vendors'],
     }),

@@ -1,4 +1,4 @@
-import { cursos } from '@aurmeneta/buscacursos-uc';
+import { cursos } from '@aurmeneta/buscacursos-uc/';
 import Choque from './Choque';
 import { URL_BUSCACURSOS } from './util';
 
@@ -54,8 +54,23 @@ function cargarChoques() {
   return [];
 }
 
+function cargarChoquesPermitidos() {
+  const choques = cargarChoques();
+  const choquesPermitidos = new cursos.ChoquesPermitidos();
+
+  choques.forEach((choque) => choquesPermitidos.anadirChoque(
+    choque.sigla1,
+    choque.tipo1,
+    choque.sigla2,
+    choque.tipo2,
+    choque.permitido,
+  ));
+
+  return choquesPermitidos;
+}
+
 export {
   periodosDisponibles, actualizarPeriodosDisponibles, periodoSeleccionado,
   guardarPeriodoSeleccionado, siglasGuardadas, guardarSiglas,
-  guardarChoques, cargarChoques,
+  guardarChoques, cargarChoques, cargarChoquesPermitidos,
 };
