@@ -4,7 +4,7 @@ Plataforma para generar combinaciones de cursos de la UC. Disponible en https://
 
 # Instalación
 
-Para poder correr el proyecto localmente es necesario tener instalado Node (>= 12) y npm. Una vez clonado el repositorio se deben instalar las dependencias.
+Para poder correr el proyecto localmente es necesario tener instalado Node (>= 16) y npm (>= 8). Una vez clonado el repositorio se deben instalar las dependencias.
 
 ```
 npm install
@@ -25,7 +25,7 @@ npm run build
 ```
 
 # Próximas funcionalidades
-- [ ] Permitir configurar choques de módulos
+- [x] Permitir configurar choques de módulos
 - [ ] Mejorar el buscador
 - [ ] Mejorar UI
 - [ ] Compartir horarios/combinación en específico
