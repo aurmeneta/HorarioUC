@@ -45,22 +45,18 @@ function Horario(props) {
   });
 
   return (
-    <div className="col-lg table-responsive">
-      <table className="table table-bordered table-sm text-center table-hover" id="horario" style={{ '--bs-border-opacity': 0.5 }}>
-        <thead>
-          <tr>
-            <th>Módulo</th>
-            <th>L</th>
-            <th>M</th>
-            <th>W</th>
-            <th>J</th>
-            <th>V</th>
-            <th>S</th>
-          </tr>
-        </thead>
+    <div className="col-xl">
+      <div className="table-responsive-lg">
+        <table className="table table-bordered table-sm text-center table-hover" id="horario" style={{ '--bs-border-opacity': 0.5 }}>
+          <thead>
+            <tr>
+              <th>Módulo</th>
+              {DIAS.map((dia) => (<th key={dia}>{`${dia}`}</th>))}
+            </tr>
+          </thead>
 
-        <tbody>
-          {
+          <tbody>
+            {
             modulos.map((dia, index) => {
               if (index === 3) {
                 return (
@@ -75,8 +71,9 @@ function Horario(props) {
               );
             })
           }
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

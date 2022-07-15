@@ -39,7 +39,7 @@ class Choque {
   }
 
   toRepr() {
-    return `${this.sigla1}-${this.tipo1 === '*' ? 'Cualquiera' : this.tipo1} con ${this.sigla2}-${this.tipo2 === '*' ? 'Cualquiera' : this.tipo2}`;
+    return `${this.sigla1 === '*' ? 'Cualquiera' : this.sigla1}-${this.tipo1 === '*' ? 'Cualquiera' : this.tipo1} con ${this.sigla2 === '*' ? 'Cualquiera' : this.sigla2}-${this.tipo2 === '*' ? 'Cualquiera' : this.tipo2}`;
   }
 }
 

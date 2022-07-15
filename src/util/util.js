@@ -119,7 +119,7 @@ const generarCombinaciones = (siglasOriginales, choquesPermitidos) => {
  * @param nrc: nrc del curso
  * @returns {}
  */
-const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPOS);
+const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPOS, URL_BUSCACURSOS);
 
 export {
   DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones,
