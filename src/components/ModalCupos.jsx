@@ -77,6 +77,11 @@ class ModalCupos extends React.Component {
               <TablaCupos cupos={cupos} />
             </div>
             <div className="modal-footer">
+              {
+                cupos.inseguro ? (
+                  <p className="text-muted">Esta información podría ser incorrecta. Revisa buscacursos.</p>
+                ) : null
+              }
               <button className="btn btn-secondary" data-bs-dismiss="modal" type="button">Cerrar</button>
             </div>
           </div>
