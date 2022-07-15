@@ -49,30 +49,41 @@ function ChoquesTable() {
   return (
     <>
       <h5>Reglas de Choques</h5>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Sigla</th>
-            <th>Tipo</th>
-            <th>Sigla</th>
-            <th>Tipo</th>
-            <th>¿Permitido?</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {choques.map((choque, index) => (
-            <FilaChoque
-              key={`${choque.sigla1}-${choque.tipo1}-${choque.sigla2}-${choque.tipo2}`}
-              choque={choque}
-              index={index}
-              setChoque={setChoque}
-              deleteChoque={deleteChoque}
-            />
-          ))}
-        </tbody>
-      </table>
-      <button type="button" onClick={agregar} className="btn btn-primary">Agregar regla</button>
+
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Sigla</th>
+              <th>Tipo</th>
+              <th>Sigla</th>
+              <th>Tipo</th>
+              <th>¿Permitido?</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {choques.map((choque, index) => (
+              <FilaChoque
+                key={`${choque.sigla1}-${choque.tipo1}-${choque.sigla2}-${choque.tipo2}`}
+                choque={choque}
+                index={index}
+                setChoque={setChoque}
+                deleteChoque={deleteChoque}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-muted">Los cambios se guardan automáticamente.</p>
+
+      <div className="container-fluid text-center">
+        <div className="btn-group">
+          <button type="button" onClick={agregar} className="btn btn-primary">Agregar regla</button>
+          <a className="btn btn-secondary" href="/">Volver</a>
+        </div>
+      </div>
     </>
   );
 }

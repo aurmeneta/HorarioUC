@@ -8,7 +8,7 @@ function TablaCombinacion(props) {
   const { combinacion, guardarCursoCupos } = props;
 
   return (
-    <div className="col-md table-responsive">
+    <div className="col-xl table-responsive">
       <table className="table-sm table">
         <thead>
           <tr>

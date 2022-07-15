@@ -31,8 +31,11 @@ table {
 }
 
 #horario {
-    table-layout: fixed;
     height: 1px;
+}
+
+#horario th {
+    width: 90px;
 }
 
 .modulo-cell {

@@ -13,15 +13,14 @@ function FilaHorario(props) {
         dia.map((cursos, i) => (
           <td className="p-0" key={DIAS[i]}>
             {
-            cursos.length > 0
-              ? cursos.map((curso) => (
-                <div key={curso.sigla} className={`${curso.tipo} modulo-cell`}>
-                  {`${curso.sigla}-${curso.secciones.toString()}`}
-                </div>
-              ))
-              : '-'
-
-          }
+                  cursos.length > 0
+                    ? cursos.map((curso) => (
+                      <div key={curso.sigla} className={`${curso.tipo} modulo-cell`}>
+                        {`${curso.sigla}-${curso.secciones.toString()}`}
+                      </div>
+                    ))
+                    : '-'
+                }
           </td>
         ))
       }

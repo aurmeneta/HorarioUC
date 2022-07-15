@@ -248,6 +248,11 @@ class App extends React.Component {
               {' '}
               <a href="/choques.html">acá</a>
               !
+              <br />
+              Por favor, si tienes algún comentario o sugerencia, déjalos
+              {' '}
+              <a href="https://forms.gle/f4BrPiT7si46yzEA9" target="_blank" rel="noreferrer">acá</a>
+              .
             </div>
 
             <div className="row">
