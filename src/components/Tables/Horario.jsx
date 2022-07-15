@@ -66,7 +66,7 @@ function Horario(props) {
           <tbody>
             {
             modulos.map((dia, i) => {
-              if (index === 3) {
+              if (i === 3) {
                 return (
                   <React.Fragment key="A">
                     <FilaAlmuerzo key="A" />
