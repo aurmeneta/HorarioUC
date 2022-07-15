@@ -7,7 +7,9 @@ import { FilaHorario, FilaAlmuerzo } from './FilasHorario';
 import Grupo from '../../util/Grupo';
 
 function Horario(props) {
-  const { combinacion } = props;
+  const {
+    combinacion, anterior, siguiente, index,
+  } = props;
   if (!combinacion) return (<p>¡No hay combinación!</p>);
 
   // TODO: permitir choque de horarios.
@@ -46,6 +48,12 @@ function Horario(props) {
 
   return (
     <div className="col-xl">
+      <div className="container-fluid text-center mb-2 d-inline d-flex">
+        <button className="btn btn-primary" onClick={anterior} type="button">Anterior</button>
+        <h5 className="flex-grow-1 align-self-center m-0">{`Combinación ${index + 1}`}</h5>
+        <button className="btn btn-primary" onClick={siguiente} type="button">Siguiente</button>
+      </div>
+
       <div className="table-responsive-lg">
         <table className="table table-bordered table-sm text-center table-hover" id="horario" style={{ '--bs-border-opacity': 0.5 }}>
           <thead>
@@ -57,17 +65,17 @@ function Horario(props) {
 
           <tbody>
             {
-            modulos.map((dia, index) => {
+            modulos.map((dia, i) => {
               if (index === 3) {
                 return (
                   <React.Fragment key="A">
                     <FilaAlmuerzo key="A" />
-                    <FilaHorario key={index} dia={dia} index={index} />
+                    <FilaHorario key={i} dia={dia} index={i} />
                   </React.Fragment>
                 );
               }
               return (
-                <FilaHorario key={index} dia={dia} index={index} />
+                <FilaHorario key={i} dia={dia} index={i} />
               );
             })
           }
@@ -80,6 +88,15 @@ function Horario(props) {
 
 Horario.propTypes = {
   combinacion: PropTypes.arrayOf(PropTypes.instanceOf(Grupo)).isRequired,
+  anterior: PropTypes.func,
+  siguiente: PropTypes.func,
+  index: PropTypes.number,
+};
+
+Horario.defaultProps = {
+  anterior: () => null,
+  siguiente: () => null,
+  index: 0,
 };
 
 export default Horario;

@@ -76,7 +76,14 @@ function ChoquesTable() {
         </table>
       </div>
 
-      <button type="button" onClick={agregar} className="btn btn-primary">Agregar regla</button>
+      <p className="text-muted">Los cambios se guardan automáticamente.</p>
+
+      <div className="container-fluid text-center">
+        <div className="btn-group">
+          <button type="button" onClick={agregar} className="btn btn-primary">Agregar regla</button>
+          <a className="btn btn-secondary" href="/">Volver</a>
+        </div>
+      </div>
     </>
   );
 }

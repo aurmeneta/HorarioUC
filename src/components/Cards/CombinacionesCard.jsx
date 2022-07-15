@@ -75,22 +75,22 @@ class CombinacionesCard extends React.Component {
         <div className="card border-0">
           <div className="card-body">
             <ErrorBoundary>
-              <h5 className="card-title">{`Combinación ${index + 1}`}</h5>
-
-              <div className="text-center m-2 btn-group">
-                <button className="btn btn-secondary" onClick={this.anterior} type="button">Anterior</button>
-                <button className="btn btn-secondary" onClick={this.siguiente} type="button">Siguiente</button>
-              </div>
-
               {
                 choques.length > 0 ? (
-                  <div className="alert alert-warning">
+                  <div className="alert alert-danger">
                     Se permiten los siguientes choques:
                     <ul>
                       {
                         choques.map((choque) => (<li>{choque.toRepr()}</li>))
                       }
                     </ul>
+                    Esta función es experimental y podrían omitirse algunas combinaciones.
+                    <br />
+                    Ir a
+                    {' '}
+                    <a href="/choques.html">configuración de choques</a>
+                    {' '}
+                    para cambiar esta estas reglas.
                   </div>
                 ) : null
               }
@@ -99,7 +99,12 @@ class CombinacionesCard extends React.Component {
               combinaciones.length === 0 ? <p>No hay combinaciones</p>
                 : (
                   <div className="row">
-                    <Horario combinacion={combinaciones[index]} />
+                    <Horario
+                      combinacion={combinaciones[index]}
+                      siguiente={this.siguiente}
+                      anterior={this.anterior}
+                      index={index}
+                    />
                     <TablaCombinacion
                       combinacion={combinaciones[index]}
                       guardarCursoCupos={guardarCursoCupos}

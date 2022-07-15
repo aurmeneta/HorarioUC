@@ -110,10 +110,10 @@ function SelectSigla({ sigla, onChange }) {
   return (
     <select onChange={onChange} value={sigla} className="form-select-sm">
       <option value="">-</option>
+      <option value="*">Cualquiera</option>
       {siglasGuardadas().map((s) => (
         <option key={s} value={s}>{s}</option>
       ))}
-      <option value="*">Cualquiera</option>
     </select>
   );
 }
@@ -127,10 +127,10 @@ function SelectTipo({ tipo, onChange }) {
   return (
     <select onChange={onChange} value={tipo} className="form-select-sm">
       <option value="">-</option>
+      <option value="*">Cualquiera</option>
       {TIPOS.map((t) => (
         <option key={t} value={t}>{t}</option>
       ))}
-      <option value="*">Cualquiera</option>
     </select>
   );
 }
