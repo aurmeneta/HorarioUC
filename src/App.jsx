@@ -242,14 +242,14 @@ class App extends React.Component {
             />
 
             <div className="alert alert-info">
-              <b>Nuevo 2022-2:</b>
+              <b>Choques de módulos:</b>
               {' '}
-              ahora se permite configurar choques de módulos. ¡Revisa
+              Si quieres permitir el choque de módulos, puedes configurar las reglas
               {' '}
               <a href="/choques.html">acá</a>
-              !
+              .
               <br />
-              Por favor, si tienes algún comentario o sugerencia, déjalos
+              Si tienes algún comentario o encuentras algún error, déjalo
               {' '}
               <a href="https://forms.gle/f4BrPiT7si46yzEA9" target="_blank" rel="noreferrer">acá</a>
               .
