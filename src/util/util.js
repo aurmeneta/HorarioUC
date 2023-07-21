@@ -30,6 +30,8 @@ const TIPO_SEMESTRES = {
   '2022-3': '1',
   '2023-1': '1'};
 
+const TIPO_SEMESTRE_DEFAULT = '2';
+
 const HORA_MODULOS = {
   '1': [
     '08:30',
@@ -147,5 +149,5 @@ const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPO
 
 export {
   DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones,
-  obtenerCupos, URL_BUSCACURSOS, URL_CUPOS, MODULO_ANTES_DE_ALMUERZO, TIPO_SEMESTRES
+  obtenerCupos, URL_BUSCACURSOS, URL_CUPOS, MODULO_ANTES_DE_ALMUERZO, TIPO_SEMESTRES, TIPO_SEMESTRE_DEFAULT
 };

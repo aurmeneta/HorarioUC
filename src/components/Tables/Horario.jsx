@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DIAS, NUMERO_MODULOS, MODULO_ANTES_DE_ALMUERZO, TIPO_SEMESTRES } from '../../util/util';
+import { DIAS, NUMERO_MODULOS, MODULO_ANTES_DE_ALMUERZO, TIPO_SEMESTRES, TIPO_SEMESTRE_DEFAULT } from '../../util/util';
 import { FilaHorario, FilaAlmuerzo } from './FilasHorario';
 import Grupo from '../../util/Grupo';
 
@@ -18,7 +18,7 @@ function Horario(props) {
   // La primera dimensión corresponde a los modulos y la segunda a los días.
   const modulos = [];
 
-  const tipo_semestre = TIPO_SEMESTRES[semestre] ?? 2;
+  const tipo_semestre = TIPO_SEMESTRES[semestre] ?? TIPO_SEMESTRE_DEFAULT;
 
   for (let i = 0; i < NUMERO_MODULOS[tipo_semestre]; i += 1) {
     const dias = [];
