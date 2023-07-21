@@ -24,31 +24,42 @@ const DIAS = [
   'V',
   'S'];
 
-const HORA_MODULOS = [
-  '08:20',
-  '09:40',
-  '11:00',
-  '12:20',
-  '14:50',
-  '16:10',
-  '17:30',
-  '18:50',
-  '20:10'];
+const TIPO_SEMESTRES = {
+  '2022-1': '1',
+  '2022-2': '1',
+  '2022-3': '1',
+  '2023-1': '1'};
 
-const HORA_MODULOS_2023_1 = [
-  '08:30',
-  '10:00',
-  '11:30',
-  '14:00',
-  '15:30',
-  '17:00',
-  '18:30',
-  '20:00',
-];
+const HORA_MODULOS = {
+  '1': [
+    '08:30',
+    '10:00',
+    '11:30',
+    '14:00',
+    '15:30',
+    '17:00',
+    '18:30',
+    '20:00'],
+  '2': [
+    '08:20',
+    '09:40',
+    '11:00',
+    '12:20',
+    '14:50',
+    '16:10',
+    '17:30',
+    '18:50',
+    '20:10']
+}
 
-const MODULO_ANTES_DE_ALMUERZO = 4;
+const MODULO_ANTES_DE_ALMUERZO = {
+  '1': 3,
+  '2': 4}
 
-const NUMERO_MODULOS = HORA_MODULOS.length;
+const NUMERO_MODULOS = {
+  '1': HORA_MODULOS['1'].length,
+  '2': HORA_MODULOS['2'].length
+}
 
 const URL_BUSCACURSOS = 'https://buscacursos.aurmeneta.cl/';
 const URL_CUPOS = 'https://buscacursos.aurmeneta.cl/informacionVacReserva.ajax.php';
@@ -136,5 +147,5 @@ const obtenerCupos = (periodo, nrc) => cupos.obtenerCupos(periodo, nrc, URL_CUPO
 
 export {
   DIAS, NUMERO_MODULOS, HORA_MODULOS, buscarSigla, buscarSiglas, generarCombinaciones,
-  obtenerCupos, URL_BUSCACURSOS, URL_CUPOS, MODULO_ANTES_DE_ALMUERZO,
+  obtenerCupos, URL_BUSCACURSOS, URL_CUPOS, MODULO_ANTES_DE_ALMUERZO, TIPO_SEMESTRES
 };
