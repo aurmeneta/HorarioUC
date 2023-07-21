@@ -263,6 +263,7 @@ class App extends React.Component {
               <CombinacionesCard
                 combinaciones={combinaciones}
                 guardarCursoCupos={this.guardarCursoCupos}
+                semestre={periodo}
               />
             </div>
           </Layout>
