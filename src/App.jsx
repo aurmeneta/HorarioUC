@@ -241,20 +241,6 @@ class App extends React.Component {
               periodo={periodo}
             />
 
-            <div className="alert alert-info">
-              <b>Nuevo 2022-2:</b>
-              {' '}
-              ahora se permite configurar choques de módulos. ¡Revisa
-              {' '}
-              <a href="/choques.html">acá</a>
-              !
-              <br />
-              Por favor, si tienes algún comentario o sugerencia, déjalos
-              {' '}
-              <a href="https://forms.gle/f4BrPiT7si46yzEA9" target="_blank" rel="noreferrer">acá</a>
-              .
-            </div>
-
             <div className="row">
               <CursosCard
                 siglas={siglas}
@@ -277,6 +263,7 @@ class App extends React.Component {
               <CombinacionesCard
                 combinaciones={combinaciones}
                 guardarCursoCupos={this.guardarCursoCupos}
+                semestre={periodo}
               />
             </div>
           </Layout>

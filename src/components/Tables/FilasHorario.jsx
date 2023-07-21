@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { DIAS, HORA_MODULOS } from '../../util/util';
 
 function FilaHorario(props) {
-  const { index, dia } = props;
+  const { index, dia, tipo_semestre } = props;
   return (
     <tr key={DIAS[index]}>
-      <td key={index}>{HORA_MODULOS[index]}</td>
+      <td key={index}>{HORA_MODULOS[tipo_semestre][index]}</td>
       {
         dia.map((cursos, i) => (
           <td className="p-0" key={DIAS[i]}>
@@ -46,6 +46,7 @@ FilaHorario.propTypes = {
           sigla: PropTypes.string,
           tipo: PropTypes.string,
         }))).isRequired,
+  tipo_semestre: PropTypes.string.isRequired
 };
 
 export { FilaHorario };
