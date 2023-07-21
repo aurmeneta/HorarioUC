@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DIAS, NUMERO_MODULOS } from '../../util/util';
+import { DIAS, NUMERO_MODULOS, MODULO_ANTES_DE_ALMUERZO } from '../../util/util';
 import { FilaHorario, FilaAlmuerzo } from './FilasHorario';
 import Grupo from '../../util/Grupo';
 
@@ -66,7 +66,7 @@ function Horario(props) {
           <tbody>
             {
             modulos.map((dia, i) => {
-              if (i === 3) {
+              if (i === MODULO_ANTES_DE_ALMUERZO) {
                 return (
                   <React.Fragment key="A">
                     <FilaAlmuerzo key="A" />
