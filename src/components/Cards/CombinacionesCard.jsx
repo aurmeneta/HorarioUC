@@ -60,7 +60,7 @@ class CombinacionesCard extends React.Component {
   }
 
   render() {
-    const { combinaciones, guardarCursoCupos } = this.props;
+    const { combinaciones, guardarCursoCupos, semestre } = this.props;
     const { length } = combinaciones;
     let { index } = this.state;
 
@@ -103,6 +103,7 @@ class CombinacionesCard extends React.Component {
                       combinacion={combinaciones[index]}
                       siguiente={this.siguiente}
                       anterior={this.anterior}
+                      semestre={semestre}
                       index={index}
                     />
                     <TablaCombinacion
@@ -124,6 +125,7 @@ class CombinacionesCard extends React.Component {
 CombinacionesCard.propTypes = {
   combinaciones: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.instanceOf(Grupo))).isRequired,
   guardarCursoCupos: PropTypes.func.isRequired,
+  semestre: PropTypes.string.isRequired,
 };
 
 export default CombinacionesCard;
