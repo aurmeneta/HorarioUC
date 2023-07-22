@@ -86,11 +86,11 @@ class CombinacionesCard extends React.Component {
                     </ul>
                     Esta función es experimental y podrían omitirse algunas combinaciones.
                     <br />
-                    Ir a
+                    En
                     {' '}
                     <a href="/choques.html">configuración de choques</a>
                     {' '}
-                    para cambiar esta estas reglas.
+                    puedes cambiar estas reglas.
                   </div>
                 ) : null
               }

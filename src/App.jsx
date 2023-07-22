@@ -241,6 +241,20 @@ class App extends React.Component {
               periodo={periodo}
             />
 
+            <div className="alert alert-info">
+              <b>Choques de módulos:</b>
+              {' '}
+              Si quieres permitir el choque de módulos, puedes configurar las reglas
+              {' '}
+              <a href="/choques.html">acá</a>
+              .
+              <br />
+              Si tienes algún comentario o encuentras algún error, déjalo
+              {' '}
+              <a href="https://forms.gle/f4BrPiT7si46yzEA9" target="_blank" rel="noreferrer">acá</a>
+              .
+            </div>
+
             <div className="row">
               <CursosCard
                 siglas={siglas}
