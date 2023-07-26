@@ -28,8 +28,8 @@
   },
   "homepage": "http://aurmeneta.github.io/HorarioUC",
   "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "node": "18.x",
+    "npm": "9.x"
   },
   "dependencies": {
     "@aurmeneta/buscacursos-uc": "^2.1.1",
