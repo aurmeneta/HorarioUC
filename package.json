@@ -1,6 +1,6 @@
 {
   "name": "horario-uc",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Planificador de cursos de la UC.",
   "main": "src/index.js",
   "scripts": {
@@ -28,8 +28,8 @@
   },
   "homepage": "http://aurmeneta.github.io/HorarioUC",
   "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "node": "18.x",
+    "npm": "9.x"
   },
   "dependencies": {
     "@aurmeneta/buscacursos-uc": "^2.1.1",
