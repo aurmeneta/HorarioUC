@@ -28,7 +28,7 @@
   },
   "homepage": "http://aurmeneta.github.io/HorarioUC",
   "engines": {
-    "node": "18.x",
+    "node": "16.x",
     "npm": "9.x"
   },
   "dependencies": {
