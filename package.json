@@ -1,6 +1,6 @@
 {
   "name": "horario-uc",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Planificador de cursos de la UC.",
   "main": "src/index.js",
   "scripts": {
