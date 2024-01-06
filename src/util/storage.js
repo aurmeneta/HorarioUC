@@ -33,7 +33,7 @@ async function actualizarPeriodosDisponibles() {
 }
 
 function periodoSeleccionado() {
-  return storage.getItem('periodo_seleccionado') || '2022-1';
+  return storage.getItem('periodo_seleccionado') || '2024-1'; // TODO: elegir período por defecto de forma más inteligente
 }
 
 function guardarPeriodoSeleccionado(periodo) {
