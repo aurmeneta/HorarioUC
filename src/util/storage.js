@@ -17,6 +17,7 @@ import Choque from './Choque';
 import { URL_BUSCACURSOS } from './util';
 
 const storage = window.localStorage;
+const periodoDefault = '2024-1'; // TODO: elegir período por defecto de forma más inteligente
 
 function periodosDisponibles() {
   const periodos = storage.getItem('periodos');
@@ -24,7 +25,7 @@ function periodosDisponibles() {
   if (periodos) {
     return periodos.split(',');
   }
-  return ['2022-1'];
+  return [periodoDefault];
 }
 
 async function actualizarPeriodosDisponibles() {
@@ -33,7 +34,7 @@ async function actualizarPeriodosDisponibles() {
 }
 
 function periodoSeleccionado() {
-  return storage.getItem('periodo_seleccionado') || '2024-1'; // TODO: elegir período por defecto de forma más inteligente
+  return storage.getItem('periodo_seleccionado') || periodoDefault; // TODO: elegir período por defecto de forma más inteligente
 }
 
 function guardarPeriodoSeleccionado(periodo) {
