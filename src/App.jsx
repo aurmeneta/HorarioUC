@@ -44,6 +44,7 @@ class App extends React.Component {
       buscando: false,
       errorEnBusqueda: undefined,
       cursoCupos: { nrc: '', sigla: '', nombre: '' },
+      errorEnCombinaciones: false,
     };
 
     this.agregarSigla = this.agregarSigla.bind(this);
@@ -209,10 +210,19 @@ class App extends React.Component {
     });
 
     // Genera las combinaciones.
-    const combinaciones = util.generarCombinaciones(siglasFiltradas, choquesPermitidos);
+    let combinaciones = [];
+    let errorEnCombinaciones = false;
+
+    try {
+      // TODO: mejorar cómo se manejan las ambigüedades.
+      combinaciones = util.generarCombinaciones(siglasFiltradas, choquesPermitidos);
+    } catch (e) {
+      rollbar.error(`Error al generar combinaciones; ${e.toString()}`);
+      errorEnCombinaciones = true;
+    }
 
     // Guardar las combinaciones y bajar flag de cambios
-    this.setState({ combinaciones, cambios: false });
+    this.setState({ combinaciones, cambios: false, errorEnCombinaciones });
   }
 
   elegirSeccion(event) {
@@ -230,6 +240,7 @@ class App extends React.Component {
   render() {
     const {
       siglas, combinaciones, seccionesSeleccionadas, buscando, errorEnBusqueda, cursoCupos, periodo,
+      errorEnCombinaciones,
     } = this.state;
 
     return (
@@ -278,6 +289,7 @@ class App extends React.Component {
                 combinaciones={combinaciones}
                 guardarCursoCupos={this.guardarCursoCupos}
                 semestre={periodo}
+                errorEnCombinaciones={errorEnCombinaciones}
               />
             </div>
           </Layout>
