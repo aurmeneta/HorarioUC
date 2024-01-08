@@ -60,7 +60,9 @@ class CombinacionesCard extends React.Component {
   }
 
   render() {
-    const { combinaciones, guardarCursoCupos, semestre } = this.props;
+    const {
+      combinaciones, guardarCursoCupos, semestre, errorEnCombinaciones,
+    } = this.props;
     const { length } = combinaciones;
     let { index } = this.state;
 
@@ -77,7 +79,7 @@ class CombinacionesCard extends React.Component {
             <ErrorBoundary>
               {
                 choques.length > 0 ? (
-                  <div className="alert alert-danger">
+                  <div className="alert alert-warning">
                     Se permiten los siguientes choques:
                     <ul>
                       {
@@ -91,6 +93,15 @@ class CombinacionesCard extends React.Component {
                     <a href="/choques.html">configuración de choques</a>
                     {' '}
                     puedes cambiar estas reglas.
+                  </div>
+                ) : null
+              }
+
+              {
+                errorEnCombinaciones ? (
+                  <div className="alert alert-danger">
+                    Hubo un error al generar las combinaciones.
+                    Por favor, intenta eliminar o cambiar los choques.
                   </div>
                 ) : null
               }
@@ -126,6 +137,11 @@ CombinacionesCard.propTypes = {
   combinaciones: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.instanceOf(Grupo))).isRequired,
   guardarCursoCupos: PropTypes.func.isRequired,
   semestre: PropTypes.string.isRequired,
+  errorEnCombinaciones: PropTypes.bool,
+};
+
+CombinacionesCard.defaultProps = {
+  errorEnCombinaciones: false,
 };
 
 export default CombinacionesCard;
