@@ -32,7 +32,8 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        if: !github.event.release.prerelease
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           folder: dist
           branch: gh-pages
