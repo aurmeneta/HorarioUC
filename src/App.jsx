@@ -252,6 +252,10 @@ class App extends React.Component {
               periodo={periodo}
             />
 
+            <div className="alert alert-danger">
+              La Universidad está bloqueando este servicio. Puede ser que haya intermitencias y no se muestren resultados de búsquedas. Alternativamente, <a href="https://ramosuc.cl/" target="_blanck" rel="noreferrer">RamosUC</a> está disponible.
+            </div>
+
             <div className="alert alert-info">
               <b>Choques de módulos:</b>
               {' '}
